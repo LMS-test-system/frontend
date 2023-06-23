@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
+import Dashboard from "../views/Dashboard.vue";
 import Login from "../views/Login.vue";
 
 const router = createRouter({
@@ -9,6 +10,13 @@ const router = createRouter({
       path: "/",
       name: "home",
       component: HomeView,
+      children: [
+        {
+          path: "/",
+          name: "dashboard",
+          component: Dashboard,
+        }
+      ]
     },
     {
       path: "/login/admin",
