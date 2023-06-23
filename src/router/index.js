@@ -24,21 +24,6 @@ const router = createRouter({
       name: "login",
       component: Login,
     },
-    {
-      path: "/login/admin",
-      name: "login-admin",
-      component: Login,
-    },
-    {
-      path: "/login/teacher",
-      name: "login-teacher",
-      component: Login,
-    },
-    {
-      path: "/login/student",
-      name: "login-student",
-      component: Login,
-    },
   ],
 });
 
