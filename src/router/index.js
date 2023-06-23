@@ -11,22 +11,26 @@ const router = createRouter({
       component: HomeView,
     },
     {
+      path: "/login",
+      name: "login",
+      component: Login,
+    },
+    {
       path: "/login/admin",
-      name: "admin",
+      name: "login-admin",
       component: Login,
     },
     {
       path: "/login/teacher",
-      name: "teacher",
+      name: "login-teacher",
       component: Login,
     },
     {
       path: "/login/student",
-      name: "student",
+      name: "login-student",
       component: Login,
     },
   ],
 });
-
 
 export default router;
