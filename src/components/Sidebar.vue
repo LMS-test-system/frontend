@@ -37,7 +37,7 @@
 
         <aside
             id="default-sidebar"
-            class="fixed top-0 lg:top-[80px] left-0 z-40 w-[200px] shadow h-screen transition-transform -translate-x-full sm:translate-x-0 bg-white"
+            class="fixed top-0 lg:top-[65px] left-0 z-40 w-[200px] shadow h-screen transition-transform -translate-x-full sm:translate-x-0 bg-white"
             aria-label="Sidebar"
         >
         
