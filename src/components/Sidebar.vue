@@ -5,7 +5,12 @@
 
     const router = useRouter();
     const navlink = ref(navLinks)
+    const role = ref("");
 
+    onMounted(() => {
+        console.log(localStorage.getItem("role"));
+        role.value = localStorage.getItem("role");
+    });
     
 </script>
 
@@ -45,11 +50,12 @@
             <ul class="space-y-3 mr-2">
             <li v-for="link in navlink" :key="link.id" class="">
                 <router-link 
-                :to="link.link"
-                class="flex items-center p-[6px] text-gray-600 bg-white hover:bg-[#F5F5F5] border rounded-md text-[14px]"
+                    :to="link.link"
+                    v-if="link.role.includes(role)"
+                    class="flex items-center p-[6px] text-gray-600 bg-white hover:bg-[#F5F5F5] border rounded-md text-[14px]"
                 >
-                <i class="text-[22px]" :class="link.icon "></i>
-                <span class="ml-3">{{link.title}}</span>
+                    <i class="text-[22px]" :class="link.icon "></i>
+                    <span class="ml-3">{{link.title}}</span>
                 </router-link>
             </li>
             </ul>
