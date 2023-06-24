@@ -6,6 +6,7 @@ import { useAuthStore } from "../stores/auth/auth";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
+  base: '/client',
   routes: [
     {
       path: "/",
