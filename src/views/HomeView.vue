@@ -1,20 +1,17 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
-
-
-
+import { RouterLink, RouterView } from "vue-router";
 </script>
 
 <template>
-<Header/>
+  <Header />
   <main>
     <section id="main" class="w-full">
-      <Sidebar/>
+      <Sidebar />
       <div class="sm:ml-[200px] bg-[#F8F8F8] p-3">
         <div
-          class=" border-gray-200 border-dashed rounded-lg dark:border-gray-700 p-3 border border-dashed border-[#BEBEBE]"
+          class="rounded-lg dark:border-gray-700 p-3 border border-dashed border-[#BEBEBE]"
         >
-        <RouterView/>
+          <RouterView />
         </div>
       </div>
     </section>
