@@ -1,6 +1,6 @@
 <template>
-    <div class="container mx-auto ">
-        <div class="h-[40px] lg:h-[65px] border-b border-[#DCDCDC] flex justify-between px-3" >
+    <div class="container mx-auto">
+        <div class="h-[40px] lg:h-[65px] border-b border-[#DCDCDC] flex justify-between px-3 " >
             <div class="flex justify-center items-center">
                 <img class="h-[45px] hidden lg:block mr-3" src="../assets/icons/tatu.png" alt="">
                 <!-- <img class="h-[35px] hidden lg:block bg-blue-500 rounded-md pt-2" src="../assets/icons/Academy.svg" alt=""> -->
