@@ -8,7 +8,6 @@
     const role = ref("");
 
     onMounted(() => {
-        console.log(localStorage.getItem("role"));
         role.value = localStorage.getItem("role");
     });
     
