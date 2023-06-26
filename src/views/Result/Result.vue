@@ -1,5 +1,5 @@
 <template>
-  <div>Dashboard</div>
+  <div>Result</div>
 </template>
 
 <script setup></script>
