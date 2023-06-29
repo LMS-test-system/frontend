@@ -1,31 +1,54 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import Teacher from '../views/Teacher/teacher.vue'
+import Dashboard from '../views/Dashboard.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: HomeView,
+      name: 'dashboard',
+      component: Dashboard,
       children: [
         {
           path: '/teacher',
           name: 'teacher',
-          component: Teacher
+          component: () => import('../views/Teacher/Teacher.vue')
+        },
+        {
+          path: '/about_teacher',
+          name: 'aboutteacher',
+          component: () => import('../views/Teacher/AboutTeacher.vue')
+        },
+        {
+          path: '/student',
+          name: 'student',
+          component: () => import('../views/Student/Student.vue')
+        },
+        {
+          path: '/about_student',
+          name: 'aboutstudent',
+          component: () => import('../views/Student/AboutStudent.vue')
+        },
+        {
+          path: '/science',
+          name: 'science',
+          component: () => import('../views/Science/Science.vue')
+        },
+        {
+          path: '/about_science',
+          name: 'aboutscience',
+          component: () => import('../views/Science/AboutScience.vue')
         }
-      ]
+      ],
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue')
+      path: '/:pathMatch(.*)*',
+      name: 'error',
+      component: () => import('../views/Error/Error.vue')
     }
   ]
 })
+
+
 
 export default router
