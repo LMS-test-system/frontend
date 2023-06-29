@@ -1,6 +1,5 @@
 import axios from "axios";
 
-// axios.defaults.baseURL = "http://localhost:1987/api"
-axios.defaults.baseURL = "https://backendportfolio-production-07d4.up.railway.app/api"
+axios.defaults.baseURL = "http://16.171.11.243/api/"
 
 export default axios
