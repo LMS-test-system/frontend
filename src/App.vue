@@ -1,12 +1,12 @@
-<template>
-  <router-view></router-view>
-</template>
-
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
 
 </script>
 
-<style lang="scss">
+<template>
+    <RouterView />
+</template>
+
+<style scoped>
 
 </style>
