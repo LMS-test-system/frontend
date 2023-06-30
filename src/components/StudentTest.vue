@@ -88,7 +88,7 @@ const route = useRoute();
 const tests = ref([])
 
 const startTest = (id)=>{
-    router.push(`/tests/${id}`)
+    router.push(`/test/${id}`)
 }
 
 onMounted(()=>{

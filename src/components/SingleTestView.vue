@@ -67,7 +67,7 @@ const submitAnswers = async () => {
             title: "Test submited",
             type: "success",
       });
-      router.push('/tests')
+      router.push('/test')
     } catch (error) {
        const message = error?.response?.data?.message;
       if (typeof message == "object") {
