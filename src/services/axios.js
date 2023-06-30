@@ -1,5 +1,5 @@
-import axios from "axios"
+import axios from "axios";
 
-axios.defaults.baseURL = "http://16.171.11.243/api"
+axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL;
 
-export default axios
+export default axios;
