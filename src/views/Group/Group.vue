@@ -1,8 +1,7 @@
 <template>
-  <div>Dashboard</div>
+  <div>Group</div>
 </template>
 
 <script setup></script>
 
 <style scoped></style>
-
