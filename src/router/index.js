@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
+import TestView from "../views/TestView.vue";
+import SingleTestView from "../views/SingleTestView.vue";
 import Dashboard from "../views/Dashboard.vue";
 import Account from "../views/Account.vue";
 import Login from "../views/Login.vue";
@@ -14,7 +16,7 @@ import { useAuthStore } from "../stores/auth/auth";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  base: "/client",
+
   routes: [
     {
       path: "/",
@@ -67,6 +69,8 @@ const router = createRouter({
           component: Result,
         },
       ],
+
+
     },
     {
       path: "/login",

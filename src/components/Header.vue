@@ -1,20 +1,21 @@
 <template>
-  <div class="container mx-auto">
-    <div
-      class="h-[40px] lg:h-[65px] border-b border-[#DCDCDC] flex justify-between px-3"
-    >
-      <div class="flex justify-center items-center">
-        <img
-          class="h-[45px] hidden lg:block mr-3"
-          src="../assets/icons/tatu.png"
-          alt=""
-        />
-        <!-- <img class="h-[35px] hidden lg:block bg-blue-500 rounded-md pt-2" src="../assets/icons/Academy.svg" alt=""> -->
-      </div>
 
-      <div class="flex items-center text-[22px] text-gray-500 gap-4 relative">
-        <i class="bx bxs-bell"></i>
-        <i class="bx bxs-grid-alt"></i>
+    <div class="container mx-auto">
+        <div class="h-[40px] lg:h-[65px] border-b border-[#DCDCDC] flex justify-between px-3 " >
+            <div class="flex justify-center items-center">
+                <img class="h-[45px] hidden lg:block mr-3" src="../assets/icons/tatu.png" alt="">
+                <!-- <img class="h-[35px] hidden lg:block bg-blue-500 rounded-md pt-2" src="../assets/icons/Academy.svg" alt=""> -->
+            </div>
+            <div class="flex  items-center text-[22px] text-gray-500 gap-4 relative">
+                <i class='bx bxs-bell'></i>
+                <i class='bx bxs-grid-alt'></i>
+                <Avatar @click="toggleSettings" status="online" size="sm" rounded img="https://flowbite.com/docs/images/people/profile-picture-5.jpg" />
+                <div
+                    class="w-[225px] h-[250px] rounded-t-md absolute setting top-12 right-0 z-10"
+                    :class="isSettings ? '' : 'hidden'"
+                >   
+                    <div class="h-[30%] bg-white border rounded-t-md flex items-end justify-between pr-2 relative">
+
 
         <button @click="toggleSettings">
           <Avatar
