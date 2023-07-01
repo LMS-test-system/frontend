@@ -5,14 +5,12 @@ import TestView from "../views/TestView.vue";
 import Dashboard from "../views/Dashboard.vue";
 import Account from "../views/Account.vue";
 import Login from "../views/Login.vue";
-import Subject from "../views/Subject/Subject.vue";
-import Teacher from "../views/Teacher/Teacher.vue";
-import Student from "../views/Student/Student.vue";
 import Group from "../views/Group/Group.vue";
 import Result from "../views/Result/Result.vue";
 import Test from "../views/Test/Test.vue";
 import TestItem from "../views/Test/TestItem.vue";
 import { useAuthStore } from "../stores/auth/auth";
+import { ElNotification, ElMessage, ElMessageBox } from "element-plus";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -64,13 +62,13 @@ const router = createRouter({
           component: () => import('../views/Student/AboutStudent.vue')
         },
         {
-          path: '/science',
-          name: 'science',
+          path: '/subject',
+          name: 'subject',
           component: () => import('../views/Science/Science.vue')
         },
         {
-          path: '/about_science',
-          name: 'aboutscience',
+          path: '/about_subject',
+          name: 'aboutsubject',
           component: () => import('../views/Science/AboutScience.vue')
         },
         {
@@ -78,11 +76,7 @@ const router = createRouter({
           name: "group",
           component: Group,
         },
-        {
-          path: "/subject",
-          name: "subject",
-          component: Subject,
-        },
+       
         {
           path: "/result",
           name: "result",
@@ -101,6 +95,30 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
+  //   if(from.name == 'test-item'){
+
+  //     ElMessageBox.confirm(
+  //         'Test tugatiladi va javoblar qabul qilinadi, davom ettirishni hohlaysizmi?',
+  //         'Warning',
+  //     {
+  //     confirmButtonText: 'OK',
+  //     cancelButtonText: 'Cancel',
+  //     type: 'warning',
+  //     center: true,
+  //     }
+  //     )
+  //     .then(() => {
+  //         submitAnswers().then(()=>{
+  //             next()
+  //         })
+  //     })
+  //     .catch(() => {
+                  
+  //     })
+  // }
+  // else{
+  //     next()
+  // }
   const store = useAuthStore();
   let token = store.getToken;
   let role = store.getRole;

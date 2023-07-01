@@ -1,8 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-<<<<<<< HEAD
-=======
 
 body {
   font-family: "DM Sans", sans-serif;
@@ -29,4 +27,3 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background-color: #70a3e2;
 }
->>>>>>> main
