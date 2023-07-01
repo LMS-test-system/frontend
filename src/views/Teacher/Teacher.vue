@@ -131,7 +131,7 @@
   <script setup>
     import {ref, reactive, computed, onMounted} from 'vue'
     import { teacherStore } from '../../stores/teacherStore';
-    import { useTeacher } from '../../service/teacher';
+    import { useTeacher } from '../../services/teacher';
     import {useRouter} from 'vue-router'
 
     const isShowModal = ref(false)

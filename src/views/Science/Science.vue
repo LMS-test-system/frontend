@@ -115,7 +115,7 @@
   <script setup>
     import {ref, reactive, computed, onMounted} from 'vue'
     import { scienceStore } from '../../stores/scienceStore';
-    import { useScience } from '../../service/science';
+    import { useScience } from '../../services/science';
     import {useRouter} from 'vue-router'
 
     const router = useRouter();

@@ -126,7 +126,7 @@
   <script setup>
     import {ref, reactive, computed, onMounted} from 'vue'
     import { studentStore } from '../../stores/studentStore';
-    import { useStudent } from '../../service/student';
+    import { useStudent } from '../../services/student';
     import {useRouter} from 'vue-router'
 
     const router = useRouter();
