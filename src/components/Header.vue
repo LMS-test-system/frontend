@@ -28,49 +28,29 @@
           <div
             class="h-[30%] bg-white border rounded-t-md flex items-end justify-between pr-2 relative"
           >
-            <button @click="toggleSettings">
-              <Avatar
-                status="online"
-                size="sm"
-                rounded
-                img="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-              />
-            </button>
-
-            <div
-              class="w-[225px] h-[250px] rounded-t-md absolute setting top-12 right-0 z-10"
-              :class="isSettings ? '' : 'hidden'"
-            >
-              <div
-                class="h-[30%] bg-white border rounded-t-md flex items-end justify-between pr-2 relative"
-              >
-                <Avatar
-                  status="online"
-                  size="lg"
-                  class="absolute top-10 left-[73px]"
-                  rounded
-                  img="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-                />
-                <i
-                  class="bx bxs-edit-alt text-[18px] hover:bg-gray-200 p-1 rounded-full"
-                ></i>
-              </div>
-              <div
-                class="flex flex-col gap-1 pt-10 items-center justify-center text-black text-[14px]"
-              >
-                <p>Username</p>
-                <p>user@mail.com</p>
-
-                <div class="w-full flex flex-col gap-3 mt-2 px-3">
-                  <button @click="router.push({ name: 'account' })">
-                    <i class="bx bx-user mr-2 text-[20px]"></i>Manage My Account
-                  </button>
-
-                  <button @click="logout">
-                    <i class="bx bx-log-out mr-2 text-[20px]"></i>Logout
-                  </button>
-                </div>
-              </div>
+            <Avatar
+              status="online"
+              size="lg"
+              class="absolute top-10 left-[73px]"
+              rounded
+              img="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+            />
+            <i
+              class="bx bxs-edit-alt text-[18px] hover:bg-gray-200 p-1 rounded-full"
+            ></i>
+          </div>
+          <div
+            class="flex flex-col gap-1 pt-10 items-center justify-center text-black text-[14px]"
+          >
+            <p>Username</p>
+            <p>user@mail.com</p>
+            <div class="w-full flex flex-col gap-3 mt-2 px-3">
+              <button @click="router.push({ name: 'account' })">
+                <i class="bx bx-user mr-2 text-[20px]"></i>Manage My Account
+              </button>
+              <button @click="logout">
+                <i class="bx bx-log-out mr-2 text-[20px]"></i>Logout
+              </button>
             </div>
           </div>
         </div>

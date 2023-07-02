@@ -6,7 +6,7 @@
                 <div class="flex gap-0">
                     <p class="bg-black text-white rounded-l-md w-10 h-8 flex items-center justify-center text-[22px]">{{min}}</p> <p class="text-[20px] font-bold bg-black text-white">:</p> <p class="bg-black text-white px-2 py-1 rounded-r-md w-10 h-8 flex items-center justify-center text-[22px]">{{sec}}</p>
                 </div>
-                <button @click="submitAnswers" class="bg-green-400 px-3 py-1 rounded-full border border-black focus:ring-2">Testni yakunlash</button>
+                <button @click="finishTest" class="bg-green-400 px-3 py-1 rounded-full border border-black focus:ring-2">Testni yakunlash</button>
             </div>
         </div>
         <div class="relative">
@@ -17,7 +17,7 @@
             <div class="">
                 <button v-for="(el, index) in result" :key="el.id" @click="selectQuestion(index)" class=" my-2 px-3 border rounded-md py-1 hover:bg-green-300 ml-1 focus:bg-blue-300" :class="(el.answer_id && questionIndex==index) ? 'bg-blue-300' : (questionIndex==index) ? 'bg-blue-300' : el.answer_id ? 'bg-green-300' : '' ">{{index+1}}</button>
             </div>
-            <div  class="bg-white rounded-md p-3 absolute top-32">
+            <div  class="bg-white rounded-md w-full p-3 absolute top-32">
                 <div v-for="(el, index) in test.question" :key="el.id" :class="index == questionIndex ? 'block z-20' : 'hidden'">
                     <p class="p-3 text-[18px]">{{el.question}}</p>
                     <hr>
@@ -34,7 +34,7 @@
 
 <script setup>
 import { ref, reactive, onMounted } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { useRoute, useRouter, onBeforeRouteLeave, onBeforeRouteUpdate } from "vue-router";
 import { ElNotification, ElMessage, ElMessageBox } from "element-plus";
 import { testService } from "../services/studentTests";
 import { useAuthStore } from "../stores/auth/auth";
@@ -54,6 +54,8 @@ const id = route.params.id
 const test = ref([])
 const result = ref([])
 
+let timer=null;
+
 const submitAnswers = async () => {
     const staff_id = store.getStaffId
     const results_with_answer = result.value.filter(res => res.answer_id !== undefined);
@@ -67,7 +69,6 @@ const submitAnswers = async () => {
             title: "Test submited",
             type: "success",
       });
-      router.push('/tests')
     } catch (error) {
        const message = error?.response?.data?.message;
       if (typeof message == "object") {
@@ -90,10 +91,13 @@ const submitAnswers = async () => {
 }   
 
 
+const finishTest = () => {
+    router.push('/test')
+}
+
+
 const startTimer = () => {
-    const timer = setInterval(()=>{
-    // window.location.reload();
-    // window.stop();
+    timer = setInterval(()=>{
     limit.value --;
     const { minutes, seconds } = parseSeconds(limit.value);
     min.value = String(minutes).padStart(2, '0');
@@ -104,7 +108,8 @@ const startTimer = () => {
           title: "Your time is up",
           type: "warning",
         });
-        submitAnswers()
+       
+        router.push('/test')
     }
     },1000)
 }
@@ -131,39 +136,31 @@ onMounted(()=>{
         
     })
 
-
+    
 
 })
 
 
-
-
-router.beforeEach((to, from, next) => {
-
-    if(from.name == 'singleTest'){
-
-        ElMessageBox.confirm(
-            'Test tugatiladi va javoblar qabul qilinadi, davom ettirishni hohlaysizmi?',
-            'Warning',
-        {
-        confirmButtonText: 'OK',
-        cancelButtonText: 'Cancel',
-        type: 'warning',
-        center: true,
+onBeforeRouteLeave(async (to, from, next) => {
+    if(limit.value == 0){
+        await submitAnswers();
+        next();
+    }else{
+        const answer = window.confirm(
+        'Test tugatiladi va javoblar qabul qilinadi, davom ettirishni hohlaysizmi?'
+        )
+        if(!answer){
+            return false;
+        }else{
+            await submitAnswers()
+            clearInterval(timer)
+            next()
         }
-    )
-        .then(() => {
-        submitAnswers()
-        next()
-        })
-        .catch(() => {
-        
-        })
     }
-    else{
-        next()
-    }
+    
 })
+
+
 
 function parseSeconds(seconds) {
   const minutes = Math.floor(seconds / 60);
