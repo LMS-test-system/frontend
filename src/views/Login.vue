@@ -83,13 +83,16 @@ const login = () => {
       data.login = "";
       data.password = "";
 
-      localStorage.setItem("token", res?.data?.token);
+      localStorage.setItem("token", res.data?.token);
+      localStorage.setItem("role", res.data?.staff?.role?.name);
+      localStorage.setItem("staff_id", res.data?.staff?.id);
 
-      if (role.value.value == "admin") {
-        localStorage.setItem("role", res?.data?.admin?.role?.name);
-      } else {
-        localStorage.setItem("role", role.value.value);
-      }
+      // if (role.value.value == "admin") {
+      //   localStorage.setItem("role", res?.data?.admin?.role?.name);
+      // } else {
+      //   localStorage.setItem("role", role.value.value);
+      // }
+
 
       router.push({ name: "home" });
     })
