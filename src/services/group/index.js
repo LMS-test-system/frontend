@@ -1,0 +1,41 @@
+import axios from "../axios";
+import { useAuthStore } from "../../stores/auth/auth";
+
+// const authStore = useAuthStore();
+
+export const groupService = {
+  create: (subject) =>
+    axios.post("/group", subject, {
+      headers: {
+        Authorization: `Bearer ${useAuthStore().getToken}`,
+      },
+    }),
+
+  getAll: () =>
+    axios.get(`/group`, {
+      headers: {
+        Authorization: `Bearer ${useAuthStore().getToken}`,
+      },
+    }),
+
+  getOne: (id) =>
+    axios.get(`/group/${id}`, {
+      headers: {
+        Authorization: `Bearer ${useAuthStore().getToken}`,
+      },
+    }),
+
+  update: (id, subject) =>
+    axios.patch(`/group/${id}`, subject, {
+      headers: {
+        Authorization: `Bearer ${useAuthStore().getToken}`,
+      },
+    }),
+
+  delete: (id) =>
+    axios.delete(`/group/${id}`, {
+      headers: {
+        Authorization: `Bearer ${useAuthStore().getToken}`,
+      },
+    }),
+};
