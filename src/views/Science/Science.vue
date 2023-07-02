@@ -39,17 +39,9 @@
                                     <label for="subject_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fan nomi</label>
                                     <input v-model="contactInfo.subject_name" type="text" name="subject_name" id="subject_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Fan nomini kirting!" required="">
                                 </div>
-                                <div class="w-1/2">
-                                    <label for="number_teachers" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fan o'qituvchilari soni</label>
-                                    <input v-model="contactInfo.number_teachers" type="number" name="number_teachers" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Fan o'qituvchilarini sonini kiritng!" required="">
-                                </div>
+                                
                             </div>
-                            <div class="flex  justify-between items-center gap-4">
-                                <div class="w-1/2">
-                                    <label for="number_groups" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fan o'tiladigan guruhlar soni</label>
-                                    <input v-model="contactInfo.number_groups" type="number" name="number_groups" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Fan o'tiladigan guruhlar sonini kiriting!" required="">
-                                </div>   
-                            </div>
+                            
                         </div>
                         <div class="flex justify-end items-center">
                             <button v-if="!isUpdate" @click="addContact($event)" type="submit" class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
@@ -77,23 +69,23 @@
                         <thead class="text-md text-white font-bold uppercase bg-gray-500 ">
                             <tr class="text-center">
                                 <th scope="col" class="px-4 py-3 text-left">Fan nomi</th>
-                                <th scope="col" class="px-4 py-3">Fan o'qituvchilari soni</th>
-                                <th scope="col" class="px-4 py-3">Fan o'tiladigan guruhlar soni</th>
-                                <th scope="col" class="px-4 py-3">Holati</th>
+                                <!-- <th scope="col" class="px-4 py-3">Fan o'qituvchilari soni</th>
+                                <th scope="col" class="px-4 py-3">Fan o'tiladigan guruhlar soni</th> -->
+                                <!-- <th scope="col" class="px-4 py-3">Holati</th> -->
                                 <th scope="col" class="px-10 py-3 text-center">Batafsil</th>
                             </tr>
                         </thead>
                         <tbody class="">
-                            <tr class="border-b dark:border-gray-700">
+                            <tr v-for="el in computedList" :key="el.id" class="border-b dark:border-gray-700">
                                 <!-- v-for="el in computedList" :key="el.id" -->
-                                <td class="px-4 py-3">Full ndfsdfsdfsddfsdfsdfsfame</td>
-                                <td class="px-4 py-3"><p class="bg-blue-300 text-teal-900 py-1 text-center rounded-full font-semibold">24</p></td>
+                                <td class="px-4 py-3">{{ el.name }}</td>
+                                <!-- <td class="px-4 py-3"><p class="bg-blue-300 text-teal-900 py-1 text-center rounded-full font-semibold">24</p></td>
                                 <td class="px-4 py-3"><p class="bg-red-200 text-red-600 py-1 text-center rounded-full font-semibold">19</p></td>
-                                <td class="px-4 py-3"><p class="bg-blue-200 text-green-600 py-1 text-center rounded-full font-semibold">active</p></td>
+                                <td class="px-4 py-3"><p class="bg-blue-200 text-green-600 py-1 text-center rounded-full font-semibold">active</p></td> -->
                                 <td class="px-4 py-3 text-[20px]">
                                     <div  class="bg-white flex justify-center items-center gap-4">
                                         <!-- id bo'yicha kiriladi -->
-                                        <a href="/about_science" class="px-4 py-1 text-white hover:bg-green-700 text-sm rounded-md bg-green-500"><p>kirish</p></a>
+                                        <a @click="oneSubject(el.id)" class="px-4 py-1 text-white hover:bg-green-700 text-sm rounded-md bg-green-500"><p>kirish</p></a>
                                         <button @click="updateContact(el.id)">
                                             <div class="w-6 h-6 py-1 rounded-md bg-blue-500 mr-4 cursor-pointer">
                                                 <i class="bx bx-task text-white text-[16px] flex items-center justify-center"></i>
@@ -112,7 +104,7 @@
       </div>
   </template>
   
-  <script setup>
+<script setup>
     import {ref, reactive, computed, onMounted} from 'vue'
     import { scienceStore } from '../../stores/scienceStore';
     import { useScience } from '../../services/science';
@@ -130,26 +122,26 @@
 
     const contactInfo = reactive({
         subject_name: '',
-        number_teachers: '',
-        number_groups: ''
+        
     })
     
     const toggleModal = () => {
         if(modal.value){
             isUpdate.value = false
             contactInfo.subject_name = ''
-            contactInfo.number_teachers = ''
-            contactInfo.number_groups = ''
         }
         modal.value = !modal.value
     }
 
+    const oneSubject = (id)=>{
+        router.push(`/subject/${id}`)
+    }
     const updateList = () => {
         useScience.list().then((res)=>{
-            store.state.list = res.data    
+            store.state.list = res.data 
         }).catch((error)=>{
-            if(error.message == 'Request failed with number_groups code 401' || error.message == 'token expired' || error.message == 'token not found'){
-                router.push({name: 'number_groups'})
+            if(error.message == 'Request failed with status code 401' || error.message == 'token expired' || error.message == 'token not found'){
+                router.push({name: 'login'})
             }else{
             console.log(error);
 
@@ -159,23 +151,21 @@
 
     const addContact=(evet)=>{
         evet.preventDefault();
-        const contact = {
-            subject_name: contactInfo.subject_name,
-            number_teachers: contactInfo.number_teachers,
-            number_groups: contactInfo.number_groups
-        }
+        let formdata = new FormData();
+        formdata.append('name', contactInfo.subject_name)
+        // const contact = {
+        //     name: contactInfo.subject_name,
+        // }
 
-        useScience.create(contact).then((res)=>{
-            if(res.number_groups == 201){
+        useScience.create(formdata).then((res)=>{
+            if(res.status == 201){
                 contactInfo.subject_name = ''
-                contactInfo.number_teachers = ''
-                contactInfo.number_groups = ''
                 toggleModal()
                 updateList();
             }
         }).catch((error)=>{
             if(error.message == 'Request failed with number_groups code 401' || error.message == 'token expired' || error.message == 'token not found'){
-                router.push({name: 'number_groups'})
+                router.push({name: 'login'})
             }
             console.log(error);
         })
@@ -184,24 +174,24 @@
     const modifyContact=(event)=>{
         event.preventDefault();
         const id  = localStorage.getItem('id')
-        const contact = {
-            subject_name: contactInfo.subject_name,
-            number_teachers: contactInfo.number_teachers,
-            number_groups: contactInfo.number_groups
-        }
+        let formdata = new FormData();
+        formdata.append('name', contactInfo.subject_name)
+        // const contact = {
+        //     name: contactInfo.subject_name
+            
+        // }
 
-        useScience.update(id, contact).then((res)=>{
-            if(res.number_groups == 200){
+        useScience.update(id, formdata).then((res)=>{
+            console.log(res.status);
+            if(res.status == 200){
                 contactInfo.subject_name=''
-                contactInfo.number_teachers=''
-                contactInfo.number_groups=''
                 isUpdate.value = false;
                 updateList();
                 toggleModal()
             }
         }).catch((error)=>{
-            if(error.message == 'Request failed with number_groups code 401' || error.message == 'token expired' || error.message == 'token not found'){
-                router.push({name: 'number_groups'})
+            if(error.message == 'Request failed with status code 401' || error.message == 'token expired' || error.message == 'token not found'){
+                router.push({name: 'login'})
             }
             console.log(error);
 
@@ -212,20 +202,18 @@
         localStorage.setItem('id', id)
         isUpdate.value = true;
         const foundContact = store.findOne(id)
-        contactInfo.subject_name = foundContact[0].subject_name
-        contactInfo.number_teachers = foundContact[0].number_teachers
-        contactInfo.number_groups = foundContact[0].number_groups
+        contactInfo.subject_name = foundContact[0].name
         toggleModal();
     }
 
     computedList = computed(()=> {
         return store.state.list;
     })
-    console.log(computedList)
     onMounted(()=>{
         updateList()
     })
-  </script>
+</script>
+
   
-  <style lang="scss" scoped></style>
+<style lang="scss" scoped></style>
   
