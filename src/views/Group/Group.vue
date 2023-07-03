@@ -138,7 +138,7 @@
   const updateList = () => {
       groupService.getAll().then((res)=>{
           groups.value = res.data 
-      }).catch((error)=>{
+        }).catch((error)=>{
           if(error.message == 'Request failed with status code 401' || error.message == 'token expired' || error.message == 'token not found'){
               router.push({name: 'login'})
           }else{
@@ -163,7 +163,7 @@
               updateList();
           }
       }).catch((error)=>{
-          if(error.message == 'Request failed with number_groups code 401' || error.message == 'token expired' || error.message == 'token not found'){
+          if(error.message == 'Request failed with status code 401' || error.message == 'token expired' || error.message == 'token not found'){
               router.push({name: 'login'})
           }
           console.log(error);
