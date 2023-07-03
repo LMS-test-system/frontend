@@ -11,28 +11,28 @@ export const navLinks = [
         title: "O'qituvchilar",
         link: "/teacher",
         icon: "bx bx-user-pin",
-        role: ['super-admin', 'admin', 'teacher']
+        role: ['super-admin', 'admin']
     },
     {
         id: 3,
         title: "O'quvchilar",
         link: "/student",
         icon: "bx bxs-layer-plus",
-        role: ['super-admin', 'admin', 'teacher']
+        role: ['super-admin', 'admin']
     },
     {
         id: 4,
         title: "Guruhlar",
         link: "/group",
         icon: "bx bx-calendar-alt",
-        role: ['super-admin', 'admin', 'teacher', 'student']
+        role: ['super-admin', 'admin', 'teacher']
     },
     {
         id: 5,
         title: "Fanlar",
         link: "/subject",
         icon: "bx bx-book-open",
-        role: ['super-admin', 'admin', 'teacher', 'student']
+        role: ['super-admin', 'admin', 'teacher']
     },
     {
         id: 6,
