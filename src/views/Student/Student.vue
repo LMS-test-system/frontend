@@ -145,7 +145,7 @@
   <script setup>
     import {ref, reactive, computed, onMounted} from 'vue'
     import { studentStore } from '../../stores/studentStore';
-    import { useStudent } from '../../services/student';
+    import { studentService } from '../../services/student';
     import { groupService } from '../../services/group';
     import { roleService } from '../../services/role';
     import {useRouter} from 'vue-router'
@@ -194,7 +194,7 @@
     }
 
     const updateList = () => {
-        useStudent.list().then((res)=>{
+        studentService.list().then((res)=>{
             store.state.list = res.data    
         }).catch((error)=>{
             if(error.message == 'Request failed with status code 401' || error.message == 'token expired' || error.message == 'token not found'){
@@ -228,7 +228,7 @@
         //     password: contactInfo.password
         // }
         console.log(formdata.value);
-        useStudent.create(formdata).then((res)=>{
+        studentService.create(formdata).then((res)=>{
             console.log(res.data);
             if(res.status == 201){
                 contactInfo.full_name = ''
@@ -270,7 +270,7 @@
         //     login: contactInfo.login
         // }
 
-        useStudent.update(id, formdata).then((res)=>{
+        studentService.update(id, formdata).then((res)=>{
             console.log(res);
             if(res.login == 200){
                 contactInfo.full_name = ''
