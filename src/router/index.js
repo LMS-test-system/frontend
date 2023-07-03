@@ -1,7 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
-import TestView from "../views/TestView.vue";
-// import SingleTestView from "../views/SingleTestView.vue";
 import Dashboard from "../views/Dashboard.vue";
 import Account from "../views/Account.vue";
 import Login from "../views/Login.vue";
@@ -9,11 +7,11 @@ import Group from "../views/Group/Group.vue";
 import ResultGroup from "../views/ResultGroup/ResultGroup.vue";
 import ResultGroupSubject from "../views/ResultGroupSubject/ResultGroupSubject.vue";
 import ResultGroupSubjectTest from "../views/ResultGroupSubjectTest/ResultGroupSubjectTest.vue";
+import OneGroup from "../views/Group/OneGroup.vue";
 import Result from "../views/Result/Result.vue";
 import Test from "../views/Test/Test.vue";
 import TestItem from "../views/Test/TestItem.vue";
 import { useAuthStore } from "../stores/auth/auth";
-import { ElNotification, ElMessage, ElMessageBox } from "element-plus";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -60,9 +58,9 @@ const router = createRouter({
           component: () => import("../views/Student/Student.vue"),
         },
         {
-          path: "/about_student",
-          name: "aboutstudent",
-          component: () => import("../views/Student/AboutStudent.vue"),
+          path: '/student/:id',
+          name: 'aboutstudent',
+          component: () => import('../views/Student/AboutStudent.vue')
         },
         {
           path: "/subject",
@@ -70,16 +68,20 @@ const router = createRouter({
           component: () => import("../views/Science/Science.vue"),
         },
         {
-          path: "/about_subject",
-          name: "aboutsubject",
-          component: () => import("../views/Science/AboutScience.vue"),
+          path: '/subject/:id',
+          name: 'aboutsubject',
+          component: () => import('../views/Science/AboutScience.vue')
         },
         {
           path: "/group",
           name: "group",
           component: Group,
         },
-
+        {
+          path: "/group/:id",
+          name: "oneGroup",
+          component: OneGroup,
+        },
         {
           path: "/result",
           name: "result",
@@ -111,30 +113,6 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  //   if(from.name == 'test-item'){
-
-  //     ElMessageBox.confirm(
-  //         'Test tugatiladi va javoblar qabul qilinadi, davom ettirishni hohlaysizmi?',
-  //         'Warning',
-  //     {
-  //     confirmButtonText: 'OK',
-  //     cancelButtonText: 'Cancel',
-  //     type: 'warning',
-  //     center: true,
-  //     }
-  //     )
-  //     .then(() => {
-  //         submitAnswers().then(()=>{
-  //             next()
-  //         })
-  //     })
-  //     .catch(() => {
-
-  //     })
-  // }
-  // else{
-  //     next()
-  // }
   const store = useAuthStore();
   let token = store.getToken;
   let role = store.getRole;

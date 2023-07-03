@@ -152,7 +152,7 @@
         login: '',
         password: ''
     })
-    console.log(contactInfo.full_name)
+
     const toggleModal = () => {
         if(modal.value){
             isUpdate.value = false
@@ -250,7 +250,8 @@
     onMounted(()=>{
         updateList()
     })
+
   </script>
   
-  <style lang="scss" scoped></style>
+  <style lang="" scoped></style>
   

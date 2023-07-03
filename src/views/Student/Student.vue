@@ -34,14 +34,22 @@
                     <!-- Modal body -->
                     <form >
                         <div class="grid gap-4 mb-4 sm:grid-cols-1">
-                            <div class="flex justify-between items-center gap-4">
-                                <div class="w-1/2">
+                            <div class="flex justify-between items-center gap-4 flex-wrap">
+                                <div class="w-full">
                                     <label for="full_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">To'liq ismi</label>
                                     <input v-model="contactInfo.full_name" type="text" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="I.F.O" required="">
                                 </div>
-                                <div class="w-1/2">
+                                <div class="w-[48%]">
                                     <label for="phone_number" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Telefon raqami</label>
                                     <input v-model="contactInfo.phone_number" type="text" name="phone_number" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="+998901234567" required="">
+                                </div>
+                                <div class="w-[48%]">
+                                    <label for="phone_number" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+                                    <input v-model="contactInfo.email" type="email" name="phone_number" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="student@mail.uz" required="">
+                                </div>
+                                <div class="w-full">
+                                    <label for="phone_number" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Telegram link</label>
+                                    <input v-model="contactInfo.telegram_link" type="text" name="phone_number" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="https://t.me/username" required="">
                                 </div>
                             </div>
                             <div class="flex  justify-between items-center gap-4">
@@ -56,8 +64,15 @@
                             </div>
                             <div class="flex justify-beetwen items-center gap-4">
                                 <div class="w-1/2">
-                                    <select id="category" class="block w-[95%] mt-2 text-sm text-gray-900 rounded-md border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 py-2">
-                                      <option value="Guruhni tanlang">Guruhni tanlang</option>
+                                    <select id="" v-model="contactInfo.group_id" class=" w-full mt-2 text-sm text-gray-900 rounded-md border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 py-2">
+                                      <option selected disabled value="">Guruhni tanlang</option>
+                                      <option v-for="group in groups" :key="group.id" :value="group.id">{{ group.name }}</option>
+                                    </select>
+                                </div>
+                                <div class="w-1/2">
+                                    <select id="" v-model="contactInfo.role_id" class=" w-full mt-2 text-sm text-gray-900 rounded-md border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 py-2">
+                                      <option selected disabled value="">Roleni tanlang</option>
+                                      <option v-for="role in roles" :key="role.id" :value="role.id">{{ role.name }}</option>
                                     </select>
                                 </div>
                             </div>
@@ -90,24 +105,28 @@
                                 <th scope="col" class="px-4 py-3 text-left">I.F.O</th>
                                 <th scope="col" class="px-4 py-3">Guruh talabasi</th>
                                 <th scope="col" class="px-4 py-3">Telefon raqami</th>
-                                <th scope="col" class="px-4 py-3">Holati</th>
+                                <th scope="col" class="px-4 py-3">Email</th>
+                                <th scope="col" class="px-4 py-3">Telegram</th>
+                                <!-- <th scope="col" class="px-4 py-3">Holati</th> -->
                                 <th scope="col" class="px-10 py-3 text-center">To'liq</th>
                             </tr>
                         </thead>
                         <tbody class="">
-                            <tr class="border-b dark:border-gray-700">
+                            <tr v-for="el in computedList" :key="el.id" class="border-b dark:border-gray-700">
                                 <!-- v-for="el in computedList" :key="el.id" -->
-                                <td class="px-4 py-3">Full ndfsdfsdfsddfsdfsdfsfame</td>
-                                <td class="px-4 py-3"><p class="bg-blue-300 text-teal-900 py-1 text-center rounded-full font-semibold">DI-11-19</p></td>
-                                <td class="px-4 py-3"><p class="bg-red-200 text-red-600 py-1 text-center rounded-full font-semibold">+998901234567</p></td>
-                                <td class="px-4 py-3"><p class="bg-blue-200 text-green-600 py-1 text-center rounded-full font-semibold">active</p></td>
+                                <td class="px-4 py-3">{{ el.full_name }}</td>
+                                <td class="px-4 py-3"><p class="bg-blue-300 text-teal-900 py-1 text-center rounded-full font-semibold">{{ el.group.name }}</p></td>
+                                <td class="px-4 py-3"><p class="bg-red-200 text-red-600 py-1 text-center rounded-full font-semibold">{{ el.phone }}</p></td>
+                                <td class="px-4 py-3"><p class="bg-green-200 text-green-600 py-1 text-center rounded-full font-semibold">{{ el.email }}</p></td>
+                                <td class="px-4 py-3"><p class="bg-gray-200 text-gray-600 py-1 text-center rounded-full font-semibold">{{ el.telegram }}</p></td>
+                                <!-- <td class="px-4 py-3"><p class="bg-blue-200 text-green-600 py-1 text-center rounded-full font-semibold"></p></td> -->
                                 <td class="px-4 py-3 text-[20px]">
                                     <div  class="bg-white flex justify-center items-center gap-4">
                                         <!-- id bo'yicha kiriladi -->
-                                        <a href="/about_student" class="px-4 py-1 text-white hover:bg-green-700 text-sm rounded-md bg-green-500"><p>kirish</p></a>
+                                        <a @click="oneStudent(el.id)" class="px-4 py-1 text-white hover:bg-green-700 text-sm rounded-md bg-green-500"><p>kirish</p></a>
                                         <button @click="updateContact(el.id)">
                                             <div class="w-6 h-6 py-1 rounded-md bg-blue-500 mr-4 cursor-pointer">
-                                                <i class="bx bx-task text-white text-[16px] flex items-center justify-center"></i>
+                                                <i class="bx bx-edit text-white text-[16px] flex items-center justify-center"></i>
                                             </div>
                                         </button>
                                     </div>
@@ -127,32 +146,49 @@
     import {ref, reactive, computed, onMounted} from 'vue'
     import { studentStore } from '../../stores/studentStore';
     import { studentService } from '../../services/student';
+    import { groupService } from '../../services/group';
+    import { roleService } from '../../services/role';
     import {useRouter} from 'vue-router'
 
     const router = useRouter();
     const store = studentStore();
     const modal = ref(false);
     const isUpdate = ref(false);
+    const groups = ref([])
+    const roles = ref([])
+
+
     let computedList = ref([])
     
     const contactInfo1 = reactive({
         searchData: ''
     })
 
+    const oneStudent = (id)=>{
+        router.push(`/student/${id}`)
+    }
+
     const contactInfo = reactive({
         full_name: '',
         phone_number: '',
+        email: '',
+        telegram_link: '',
         login: '',
-        password: ''
+        password: '',
+        role_id: '',
+        group_id: ''
     })
-    console.log(contactInfo.full_name)
     const toggleModal = () => {
         if(modal.value){
             isUpdate.value = false
             contactInfo.full_name = ''
             contactInfo.phone_number = ''
+            contactInfo.email = ''
+            contactInfo.telegram_link = ''
             contactInfo.login = ''
             contactInfo.password = ''
+            contactInfo.role_id = ''
+            contactInfo.group_id = ''
         }
         modal.value = !modal.value
     }
@@ -161,7 +197,7 @@
         studentService.list().then((res)=>{
             store.state.list = res.data    
         }).catch((error)=>{
-            if(error.message == 'Request failed with login code 401' || error.message == 'token expired' || error.message == 'token not found'){
+            if(error.message == 'Request failed with status code 401' || error.message == 'token expired' || error.message == 'token not found'){
                 router.push({name: 'login'})
             }else{
             console.log(error);
@@ -172,23 +208,42 @@
 
     const addContact=(evet)=>{
         evet.preventDefault();
-        const contact = {
-            full_name: contactInfo.full_name,
-            phone_number: contactInfo.phone_number,
-            login: contactInfo.login,
-            password: contactInfo.password
-        }
+        let formdata  = new FormData();
+        formdata.append('full_name', contactInfo.full_name)
+        formdata.append('email', contactInfo.email)
+        formdata.append('phone', contactInfo.phone_number)
+        formdata.append('telegram', contactInfo.telegram_link)
+        formdata.append('login', contactInfo.login)
+        formdata.append('password', contactInfo.password)
+        formdata.append('group_id', contactInfo.group_id)
+        formdata.append('role_id', contactInfo.role_id)
 
-        studentService.create(contact).then((res)=>{
-            if(res.login == 201){
+        // const contact = {
+        //     full_name: contactInfo.full_name,
+        //     phone_number: contactInfo.phone_number,
+        //     email: contactInfo.email,
+        //     telegram_link: contactInfo.telegram_link,
+        //     phone_number: contactInfo.phone_number,
+        //     login: contactInfo.login,
+        //     password: contactInfo.password
+        // }
+        console.log(formdata.value);
+        studentService.create(formdata).then((res)=>{
+            console.log(res.data);
+            if(res.status == 201){
                 contactInfo.full_name = ''
                 contactInfo.phone_number = ''
                 contactInfo.login = ''
                 contactInfo.password = ''
+                contactInfo.email = ''
+                contactInfo.telegram_link = ''
+                contactInfo.role_id = ''
+                contactInfo.group_id = ''
                 toggleModal()
                 updateList();
             }
         }).catch((error)=>{
+
             if(error.message == 'Request failed with login code 401' || error.message == 'token expired' || error.message == 'token not found'){
                 router.push({name: 'login'})
             }
@@ -198,20 +253,34 @@
 
     const modifyContact=(event)=>{
         event.preventDefault();
-        const id  = localStorage.getItem('id')
-        const contact = {
-            full_name: contactInfo.full_name,
-            password: contactInfo.password,
-            phone_number: contactInfo.phone_number,
-            login: contactInfo.login
-        }
+        const id  = localStorage.getItem('student_id')
+        let formdata  = new FormData();
+        formdata.append('full_name', contactInfo.full_name)
+        formdata.append('email', contactInfo.email)
+        formdata.append('phone', contactInfo.phone_number)
+        formdata.append('telegram', contactInfo.telegram_link)
+        formdata.append('login', contactInfo.login)
+        formdata.append('password', contactInfo.password)
+        formdata.append('group_id', contactInfo.group_id)
+        formdata.append('role_id', contactInfo.role_id)
+        // const contact = {
+        //     full_name: contactInfo.full_name,
+        //     password: contactInfo.password,
+        //     phone_number: contactInfo.phone_number,
+        //     login: contactInfo.login
+        // }
 
-        studentService.update(id, contact).then((res)=>{
+        studentService.update(id, formdata).then((res)=>{
+            console.log(res);
             if(res.login == 200){
-                contactInfo.full_name=''
-                contactInfo.phone_number=''
-                contactInfo.login=''
-                contactInfo.password=''
+                contactInfo.full_name = ''
+                contactInfo.phone_number = ''
+                contactInfo.login = ''
+                contactInfo.password = ''
+                contactInfo.email = ''
+                contactInfo.telegram_link = ''
+                contactInfo.role_id = ''
+                contactInfo.group_id = ''
                 isUpdate.value = false;
                 updateList();
                 toggleModal()
@@ -226,22 +295,46 @@
     }
 
     const updateContact = (id)=>{
-        localStorage.setItem('id', id)
+        localStorage.setItem('student_id', id)
         isUpdate.value = true;
         const foundContact = store.findOne(id)
         contactInfo.full_name = foundContact[0].full_name
-        contactInfo.phone_number = foundContact[0].phone_number
+        contactInfo.phone_number = foundContact[0].phone
         contactInfo.login = foundContact[0].login
         contactInfo.password = foundContact[0].password
+        contactInfo.email = foundContact[0].email
+        contactInfo.telegram_link = foundContact[0].telegram
+        contactInfo.group_id = foundContact[0].group_id
+        contactInfo.role_id = foundContact[0].role_id
         toggleModal();
     }
 
     computedList = computed(()=> {
         return store.state.list;
     })
-    console.log(computedList)
     onMounted(()=>{
         updateList()
+        groupService.getAll().then((res)=>{
+          groups.value = res.data 
+        }).catch((error)=>{
+          if(error.message == 'Request failed with status code 401' || error.message == 'token expired' || error.message == 'token not found'){
+              router.push({name: 'login'})
+          }else{
+          console.log(error);
+
+          }
+        })
+
+        roleService.getAll().then((res)=>{
+            roles.value = res.data 
+            }).catch((error)=>{
+            if(error.message == 'Request failed with status code 401' || error.message == 'token expired' || error.message == 'token not found'){
+                router.push({name: 'login'})
+            }else{
+            console.log(error);
+
+            }
+        })
     })
   </script>
   
