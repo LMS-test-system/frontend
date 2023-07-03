@@ -58,9 +58,9 @@ const router = createRouter({
           component: () => import("../views/Student/Student.vue"),
         },
         {
-          path: '/student/:id',
-          name: 'aboutstudent',
-          component: () => import('../views/Student/AboutStudent.vue')
+          path: "/student/:id",
+          name: "aboutstudent",
+          component: () => import("../views/Student/AboutStudent.vue"),
         },
         {
           path: "/subject",
@@ -68,9 +68,9 @@ const router = createRouter({
           component: () => import("../views/Science/Science.vue"),
         },
         {
-          path: '/subject/:id',
-          name: 'aboutsubject',
-          component: () => import('../views/Science/AboutScience.vue')
+          path: "/subject/:id",
+          name: "aboutsubject",
+          component: () => import("../views/Science/AboutScience.vue"),
         },
         {
           path: "/group",
