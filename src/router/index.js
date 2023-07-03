@@ -6,6 +6,9 @@ import Dashboard from "../views/Dashboard.vue";
 import Account from "../views/Account.vue";
 import Login from "../views/Login.vue";
 import Group from "../views/Group/Group.vue";
+import ResultGroup from "../views/ResultGroup/ResultGroup.vue";
+import ResultGroupSubject from "../views/ResultGroupSubject/ResultGroupSubject.vue";
+import ResultGroupSubjectTest from "../views/ResultGroupSubjectTest/ResultGroupSubjectTest.vue";
 import Result from "../views/Result/Result.vue";
 import Test from "../views/Test/Test.vue";
 import TestItem from "../views/Test/TestItem.vue";
@@ -42,49 +45,62 @@ const router = createRouter({
           component: TestItem,
         },
         {
-          path: '/teacher',
-          name: 'teacher',
-          component: () => import('../views/Teacher/Teacher.vue')
+          path: "/teacher",
+          name: "teacher",
+          component: () => import("../views/Teacher/Teacher.vue"),
         },
         {
-          path: '/about_teacher',
-          name: 'aboutteacher',
-          component: () => import('../views/Teacher/AboutTeacher.vue')
+          path: "/about_teacher",
+          name: "aboutteacher",
+          component: () => import("../views/Teacher/AboutTeacher.vue"),
         },
         {
-          path: '/student',
-          name: 'student',
-          component: () => import('../views/Student/Student.vue')
+          path: "/student",
+          name: "student",
+          component: () => import("../views/Student/Student.vue"),
         },
         {
-          path: '/about_student',
-          name: 'aboutstudent',
-          component: () => import('../views/Student/AboutStudent.vue')
+          path: "/about_student",
+          name: "aboutstudent",
+          component: () => import("../views/Student/AboutStudent.vue"),
         },
         {
-          path: '/subject',
-          name: 'subject',
-          component: () => import('../views/Science/Science.vue')
+          path: "/subject",
+          name: "subject",
+          component: () => import("../views/Science/Science.vue"),
         },
         {
-          path: '/about_subject',
-          name: 'aboutsubject',
-          component: () => import('../views/Science/AboutScience.vue')
+          path: "/about_subject",
+          name: "aboutsubject",
+          component: () => import("../views/Science/AboutScience.vue"),
         },
         {
           path: "/group",
           name: "group",
           component: Group,
         },
-       
+
         {
           path: "/result",
           name: "result",
           component: Result,
         },
+        {
+          path: "/result/group/:id",
+          name: "result-group-id",
+          component: ResultGroup,
+        },
+        {
+          path: "/result/group/subject/:id",
+          name: "result-group-subject-id",
+          component: ResultGroupSubject,
+        },
+        {
+          path: "/result/group/subject/test/:id",
+          name: "result-group-subject-test-id",
+          component: ResultGroupSubjectTest,
+        },
       ],
-
-
     },
     {
       path: "/login",
@@ -113,7 +129,7 @@ router.beforeEach((to, from, next) => {
   //         })
   //     })
   //     .catch(() => {
-                  
+
   //     })
   // }
   // else{
