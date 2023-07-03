@@ -126,6 +126,7 @@ const selectQuestion = (index) => {
 
 onMounted(()=>{
     testService.getOne(id).then((res)=>{
+        console.log(res.data);
         limit.value = res.data.time_limit*60;
         // limit.value = '10';
         test.value = res.data;

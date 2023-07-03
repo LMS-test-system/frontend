@@ -28,5 +28,10 @@ export const useStudent = {
             "Authorization": `Bearer ${useAuthStore().getToken}`
         }
     }),
+    updateGroup: (id, state)=> axios.patch(`/student/group/${id}`, state, {
+        headers:{
+            "Authorization": `Bearer ${useAuthStore().getToken}`
+        }
+    }),
     
 }

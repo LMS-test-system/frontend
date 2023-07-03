@@ -34,7 +34,7 @@
                     <!-- Modal body -->
                     <form >
                         <div class="grid gap-4 mb-4 sm:grid-cols-1">
-                            <div class="flex justify-between items-center gap-4 flex-wrap">
+                            <div v-if="!isUpdate" class="flex justify-between items-center gap-4 flex-wrap">
                                 <div class="w-full">
                                     <label for="full_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">To'liq ismi</label>
                                     <input v-model="contactInfo.full_name" type="text" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="I.F.O" required="">
@@ -52,7 +52,7 @@
                                     <input v-model="contactInfo.telegram_link" type="text" name="phone_number" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="https://t.me/username" required="">
                                 </div>
                             </div>
-                            <div class="flex  justify-between items-center gap-4">
+                            <div v-if="!isUpdate" class="flex  justify-between items-center gap-4">
                                 <div class="w-1/2">
                                     <label for="login" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Login</label>
                                     <input v-model="contactInfo.login" type="text" name="login" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Loginni kiriting!" required="">
@@ -69,7 +69,7 @@
                                       <option v-for="group in groups" :key="group.id" :value="group.id">{{ group.name }}</option>
                                     </select>
                                 </div>
-                                <div class="w-1/2">
+                                <div v-if="!isUpdate" class="w-1/2">
                                     <select id="" v-model="contactInfo.role_id" class=" w-full mt-2 text-sm text-gray-900 rounded-md border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 py-2">
                                       <option selected disabled value="">Roleni tanlang</option>
                                       <option v-for="role in roles" :key="role.id" :value="role.id">{{ role.name }}</option>
@@ -227,7 +227,6 @@
         //     login: contactInfo.login,
         //     password: contactInfo.password
         // }
-        console.log(formdata.value);
         useStudent.create(formdata).then((res)=>{
             console.log(res.data);
             if(res.status == 201){
@@ -254,39 +253,21 @@
     const modifyContact=(event)=>{
         event.preventDefault();
         const id  = localStorage.getItem('student_id')
-        let formdata  = new FormData();
-        formdata.append('full_name', contactInfo.full_name)
-        formdata.append('email', contactInfo.email)
-        formdata.append('phone', contactInfo.phone_number)
-        formdata.append('telegram', contactInfo.telegram_link)
-        formdata.append('login', contactInfo.login)
-        formdata.append('password', contactInfo.password)
-        formdata.append('group_id', contactInfo.group_id)
-        formdata.append('role_id', contactInfo.role_id)
-        // const contact = {
-        //     full_name: contactInfo.full_name,
-        //     password: contactInfo.password,
-        //     phone_number: contactInfo.phone_number,
-        //     login: contactInfo.login
-        // }
+        // let formdata  = new FormData();
+        // formdata.append('group_id', contactInfo.group_id)
+        const contact = {
+            group_id: contactInfo.group_id
+        }
 
-        useStudent.update(id, formdata).then((res)=>{
-            console.log(res);
-            if(res.login == 200){
-                contactInfo.full_name = ''
-                contactInfo.phone_number = ''
-                contactInfo.login = ''
-                contactInfo.password = ''
-                contactInfo.email = ''
-                contactInfo.telegram_link = ''
-                contactInfo.role_id = ''
+        useStudent.updateGroup(id, contact).then((res)=>{
+            if(res.status == 200){
                 contactInfo.group_id = ''
                 isUpdate.value = false;
                 updateList();
                 toggleModal()
             }
         }).catch((error)=>{
-            if(error.message == 'Request failed with login code 401' || error.message == 'token expired' || error.message == 'token not found'){
+            if(error.message == 'Request failed with status code 401' || error.message == 'token expired' || error.message == 'token not found'){
                 router.push({name: 'login'})
             }
             console.log(error);

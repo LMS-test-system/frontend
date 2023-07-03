@@ -25,7 +25,7 @@ const router = createRouter({
           component: Dashboard,
         },
         {
-          path: "/account",
+          path: "/account/:id",
           name: "account",
           component: Account,
         },
