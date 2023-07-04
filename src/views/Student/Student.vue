@@ -88,7 +88,7 @@
           <!-- Modal body -->
           <form>
             <div class="grid gap-4 mb-4 sm:grid-cols-1">
-              <div class="flex justify-between items-center gap-4 flex-wrap">
+              <div v-if="!isUpdate" class="flex justify-between items-center gap-4 flex-wrap">
                 <div class="w-full">
                   <label
                     for="full_name"
@@ -151,7 +151,7 @@
                   />
                 </div>
               </div>
-              <div class="flex justify-between items-center gap-4">
+              <div v-if="!isUpdate" class="flex justify-between items-center gap-4">
                 <div class="w-1/2">
                   <label
                     for="login"
@@ -200,7 +200,7 @@
                     </option>
                   </select>
                 </div>
-                <div class="w-1/2">
+                <div v-if="!isUpdate" class="w-1/2">
                   <select
                     id=""
                     v-model="contactInfo.role_id"
@@ -436,20 +436,9 @@ const addContact = (evet) => {
   formdata.append("group_id", contactInfo.group_id);
   formdata.append("role_id", contactInfo.role_id);
 
-  // const contact = {
-  //     full_name: contactInfo.full_name,
-  //     phone_number: contactInfo.phone_number,
-  //     email: contactInfo.email,
-  //     telegram_link: contactInfo.telegram_link,
-  //     phone_number: contactInfo.phone_number,
-  //     login: contactInfo.login,
-  //     password: contactInfo.password
-  // }
-  console.log(formdata.value);
   studentService
     .create(formdata)
     .then((res) => {
-      console.log(res.data);
       if (res.status == 201) {
         contactInfo.full_name = "";
         contactInfo.phone_number = "";
@@ -479,33 +468,13 @@ const modifyContact = (event) => {
   event.preventDefault();
   const id = localStorage.getItem("student_id");
   let formdata = new FormData();
-  formdata.append("full_name", contactInfo.full_name);
-  formdata.append("email", contactInfo.email);
-  formdata.append("phone", contactInfo.phone_number);
-  formdata.append("telegram", contactInfo.telegram_link);
-  formdata.append("login", contactInfo.login);
-  formdata.append("password", contactInfo.password);
+  
   formdata.append("group_id", contactInfo.group_id);
-  formdata.append("role_id", contactInfo.role_id);
-  // const contact = {
-  //     full_name: contactInfo.full_name,
-  //     password: contactInfo.password,
-  //     phone_number: contactInfo.phone_number,
-  //     login: contactInfo.login
-  // }
 
   studentService
     .update(id, formdata)
     .then((res) => {
-      console.log(res);
-      if (res.login == 200) {
-        contactInfo.full_name = "";
-        contactInfo.phone_number = "";
-        contactInfo.login = "";
-        contactInfo.password = "";
-        contactInfo.email = "";
-        contactInfo.telegram_link = "";
-        contactInfo.role_id = "";
+      if (res.status == 200) {
         contactInfo.group_id = "";
         isUpdate.value = false;
         updateList();
@@ -514,7 +483,7 @@ const modifyContact = (event) => {
     })
     .catch((error) => {
       if (
-        error.message == "Request failed with login code 401" ||
+        error.message == "Request failed with status code 401" ||
         error.message == "token expired" ||
         error.message == "token not found"
       ) {
@@ -528,14 +497,7 @@ const updateContact = (id) => {
   localStorage.setItem("student_id", id);
   isUpdate.value = true;
   const foundContact = store.findOne(id);
-  contactInfo.full_name = foundContact[0].full_name;
-  contactInfo.phone_number = foundContact[0].phone;
-  contactInfo.login = foundContact[0].login;
-  contactInfo.password = foundContact[0].password;
-  contactInfo.email = foundContact[0].email;
-  contactInfo.telegram_link = foundContact[0].telegram;
   contactInfo.group_id = foundContact[0].group_id;
-  contactInfo.role_id = foundContact[0].role_id;
   toggleModal();
 };
 
