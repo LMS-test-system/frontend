@@ -31,4 +31,25 @@ export const resultService = {
         Authorization: `Bearer ${useAuthStore().getToken}`,
       },
     }),
+
+  createResultQuestion: (payload) =>
+    axios.post(`/result-question`, payload, {
+      headers: {
+        Authorization: `Bearer ${useAuthStore().getToken}`,
+      },
+    }),
+
+  createResultAnswer: (payload) =>
+    axios.post(`/result-answer`, payload, {
+      headers: {
+        Authorization: `Bearer ${useAuthStore().getToken}`,
+      },
+    }),
+
+  checkResult: (result) =>
+    axios.post(`/result/check`, result, {
+      headers: {
+        Authorization: `Bearer ${useAuthStore().getToken}`,
+      },
+    }),
 };

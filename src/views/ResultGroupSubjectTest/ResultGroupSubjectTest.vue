@@ -27,6 +27,7 @@ import { reactive, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { ElNotification } from "element-plus";
 import { testService } from "../../services/test";
+import { reportErr } from "../../constants/report";
 
 const route = useRoute();
 
@@ -46,28 +47,6 @@ function getScore(result) {
   const score = (correctAnswers / totalQuestions) * 100;
   return score.toFixed(0);
 }
-
-const reportErr = (error) => {
-  const message = error?.response?.data?.message;
-  if (typeof message == "object") {
-    for (let i in message) {
-      setTimeout(() => {
-        ElNotification({
-          title: "Error",
-          message: message[i],
-          type: "warning",
-        });
-      }, i * 200);
-    }
-  } else {
-    console.log(error);
-    ElNotification({
-      title: "Error",
-      message: message,
-      type: "warning",
-    });
-  }
-};
 
 onMounted(() => {
   data.group_id = localStorage.getItem("group_id");

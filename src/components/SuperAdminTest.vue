@@ -168,11 +168,12 @@
 
 <script setup>
 import { ref, reactive, onMounted } from "vue";
+import { useRouter } from "vue-router";
 import { ElMessageBox, ElNotification } from "element-plus";
 import { Modal } from "flowbite-vue";
 import { testService } from "../services/test";
 import { subService } from "../services/subject";
-import { useRouter } from "vue-router";
+import { reportErr } from "../constants/report";
 
 const router = useRouter();
 
@@ -224,26 +225,6 @@ const updateList = () => {
     });
 };
 
-const reportErr = (error) => {
-  const message = error?.response?.data?.message;
-  if (typeof message == "object") {
-    for (let i in message) {
-      setTimeout(() => {
-        ElNotification({
-          title: "Error",
-          message: message[i],
-          type: "warning",
-        });
-      }, i * 200);
-    }
-  } else {
-    ElNotification({
-      title: "Error",
-      message: message,
-      type: "warning",
-    });
-  }
-};
 
 const submit = () => {
   const newItem = {

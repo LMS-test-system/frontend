@@ -74,16 +74,13 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from "vue";
-import {
-  useRoute,
-  useRouter,
-  onBeforeRouteLeave,
-  onBeforeRouteUpdate,
-} from "vue-router";
+import { ref, reactive, onMounted, onBeforeMount } from "vue";
+import { useRoute, useRouter, onBeforeRouteLeave } from "vue-router";
 import { ElNotification, ElMessage, ElMessageBox } from "element-plus";
-import { testService } from "../services/studentTests";
+import { testService } from "../services/test";
+import { resultService } from "../services/result";
 import { useAuthStore } from "../stores/auth/auth";
+import { reportErr } from "../constants/report";
 
 const store = useAuthStore();
 
@@ -100,26 +97,33 @@ const id = route.params.id;
 const test = ref([]);
 const result = ref([]);
 
+const check = ref(false);
+
 let timer = null;
 
+const authStore = useAuthStore();
+
 const submitAnswers = async () => {
+  const time_spent = test.value.time_limit - Math.ceil(+limit.value / 60);
+
   const staff_id = store.getStaffId;
   const results_with_answer = result.value.filter(
     (res) => res.answer_id !== undefined
   );
   try {
-    const resultBackend = await testService.createResult({
+    const resultBackend = await resultService.create({
       student_id: staff_id,
-      time_spent: +limit.value,
+      time_spent,
       test_id: id,
     });
+
     for (let i = 0; i < results_with_answer.length; i++) {
-      const result_question = await testService.createResultQuestion({
+      const result_question = await resultService.createResultQuestion({
         is_right: result.value[i].is_right,
         question_id: result.value[i].question_id,
         result_id: resultBackend.data.id,
       });
-      await testService.createResultAnswer({
+      await resultService.createResultAnswer({
         answer_id: results_with_answer[i].answer_id,
         result_question_id: result_question.data.id,
       });
@@ -129,22 +133,7 @@ const submitAnswers = async () => {
       type: "success",
     });
   } catch (error) {
-    const message = error?.response?.data?.message;
-    if (typeof message == "object") {
-      for (let i of message) {
-        ElNotification({
-          title: "Error",
-          message: i,
-          type: "warning",
-        });
-      }
-    } else {
-      ElNotification({
-        title: "Error",
-        message: message,
-        type: "warning",
-      });
-    }
+    reportErr(error);
   }
 };
 
@@ -167,7 +156,7 @@ const startTimer = () => {
 
       router.push("/test");
     }
-  }, 1000);
+  }, 1);
 };
 
 const setAnswer = (event, index) => {
@@ -179,7 +168,7 @@ const selectQuestion = (index) => {
   questionIndex.value = index;
 };
 
-onMounted(() => {
+const startTest = () => {
   testService.getOne(id).then((res) => {
     limit.value = res.data.time_limit * 60;
     // limit.value = '10';
@@ -189,11 +178,18 @@ onMounted(() => {
     });
     startTimer();
   });
+};
+
+onMounted(() => {
+  check.value = true;
+  startTest();
 });
 
 onBeforeRouteLeave(async (to, from, next) => {
   if (limit.value == 0) {
-    await submitAnswers();
+    if (check.value) {
+      await submitAnswers();
+    }
     next();
   } else {
     const answer = window.confirm(

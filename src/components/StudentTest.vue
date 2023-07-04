@@ -140,12 +140,14 @@
 </template>
 
 <script setup>
-import { Button } from "flowbite-vue";
 import { ref, reactive, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { Button } from "flowbite-vue";
 import { ElNotification } from "element-plus";
-import { testService } from "../services/studentTests";
+import { testService } from "../services/test";
+import { resultService } from "../services/result";
 import { useAuthStore } from "../stores/auth/auth";
+import { reportErr } from "../constants/report";
 
 const router = useRouter();
 const route = useRoute();
@@ -160,7 +162,7 @@ const startTest = (id) => {
     test_id: id,
   };
 
-  testService
+  resultService
     .checkResult(result)
     .then((res) => {
       if (res.data.check) {
@@ -170,27 +172,6 @@ const startTest = (id) => {
     .catch((error) => {
       reportErr(error);
     });
-};
-
-const reportErr = (error) => {
-  const message = error?.response?.data?.message;
-  if (typeof message == "object") {
-    for (let i in message) {
-      setTimeout(() => {
-        ElNotification({
-          title: "Error",
-          message: message[i],
-          type: "warning",
-        });
-      }, i * 200);
-    }
-  } else {
-    ElNotification({
-      title: "Error",
-      message: message,
-      type: "warning",
-    });
-  }
 };
 
 onMounted(() => {

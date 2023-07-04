@@ -42,6 +42,7 @@ import { ref, onMounted } from "vue";
 import { ElNotification } from "element-plus";
 import { useAuthStore } from "../stores/auth/auth";
 import { studentService } from "../services/student";
+import { reportErr } from "../constants/report";
 
 const authStore = useAuthStore();
 
@@ -63,28 +64,6 @@ function getScore(result) {
   const score = (correctAnswers / totalQuestions) * 100;
   return score.toFixed(0);
 }
-
-const reportErr = (error) => {
-  const message = error?.response?.data?.message;
-  if (typeof message == "object") {
-    for (let i in message) {
-      setTimeout(() => {
-        ElNotification({
-          title: "Error",
-          message: message[i],
-          type: "warning",
-        });
-      }, i * 200);
-    }
-  } else {
-    console.log(error);
-    ElNotification({
-      title: "Error",
-      message: message,
-      type: "warning",
-    });
-  }
-};
 
 // Fetch test results data from API
 onMounted(async () => {
