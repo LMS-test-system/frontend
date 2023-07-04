@@ -12,6 +12,8 @@ import Result from "../views/Result/Result.vue";
 import Test from "../views/Test/Test.vue";
 import TestItem from "../views/Test/TestItem.vue";
 import { useAuthStore } from "../stores/auth/auth";
+import { resultService } from "../services/result";
+import { reportErr } from "../constants/report";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -41,6 +43,24 @@ const router = createRouter({
           path: "/test/:id",
           name: "test-item",
           component: TestItem,
+          beforeEnter: (to, from, next) => {
+            const result = {
+              student_id: useAuthStore().getStaffId,
+              test_id: to.params.id,
+            };
+
+            resultService
+              .checkResult(result)
+              .then((res) => {
+                if (res.data.check) {
+                  next();
+                }
+              })
+              .catch((error) => {
+                router.push("/test");
+                reportErr(error);
+              });
+          },
         },
         {
           path: "/teacher",

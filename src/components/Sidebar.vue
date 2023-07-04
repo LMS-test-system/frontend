@@ -10,7 +10,6 @@ const role = ref("");
 onMounted(() => {
   role.value = localStorage.getItem("role");
 });
-
 </script>
 
 <template>

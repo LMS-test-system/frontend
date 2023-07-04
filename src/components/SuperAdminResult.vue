@@ -23,34 +23,13 @@
 import { reactive, onMounted } from "vue";
 import { ElNotification } from "element-plus";
 import { groupService } from "../services/group";
+import { reportErr } from "../constants/report";
 
 const api_url = import.meta.env.VITE_API_BASE_URL;
 
 const data = reactive({
   group: [],
 });
-
-const reportErr = (error) => {
-  const message = error?.response?.data?.message;
-  if (typeof message == "object") {
-    for (let i in message) {
-      setTimeout(() => {
-        ElNotification({
-          title: "Error",
-          message: message[i],
-          type: "warning",
-        });
-      }, i * 200);
-    }
-  } else {
-    console.log(error);
-    ElNotification({
-      title: "Error",
-      message: message,
-      type: "warning",
-    });
-  }
-};
 
 onMounted(() => {
   groupService
