@@ -1,7 +1,7 @@
 <template>
   <div>
     <StudentResult v-if="authStore.getRole == 'student'" />
-    <SuperAdminResult v-if="authStore.getRole == 'super-admin'" />
+    <SuperAdminResult v-if="authStore.getRole == 'super-admin' || authStore.getRole == 'teacher'" />
   </div>
 </template>
 

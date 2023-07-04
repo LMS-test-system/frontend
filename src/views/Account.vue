@@ -17,6 +17,7 @@
     </div>
     <div>
     </div>
+    <!-- <pre>{{ user }}</pre> -->
   </div>
 
   <div tabindex="-1" aria-hidden="true" class="overflow-y-auto flex bg-[rgba(0,0,0,0.4)] overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-modal md:h-full" :class="modal2 ? '' : 'hidden'">
@@ -115,6 +116,7 @@
 import {onMounted, ref, reactive} from 'vue'
 import {useRouter, useRoute} from 'vue-router'
 import { authService } from "../services/auth";
+import {reportErr} from '../constants/report'
 
 const router = useRouter()
 const route = useRoute()
@@ -160,11 +162,7 @@ const modifyContact=(event)=>{
         toggleModal()
         getUser()
       }).catch((error)=>{
-          if(error.message == 'Request failed with status code 401' || error.message == 'token expired' || error.message == 'token not found'){
-              router.push({name: 'login'})
-          }
-          console.log(error);
-
+        reportErr(error)
       })
   }
 
@@ -199,11 +197,7 @@ const updateImage = (event) =>{
         toggleModal2()
         getUser()
     }).catch((error)=>{
-        if(error.message == 'Request failed with status code 401' || error.message == 'token expired' || error.message == 'token not found'){
-            router.push({name: 'login'})
-        }
-        console.log(error);
-        toast.error(error.message)
+        reportErr(error)
     })
 }
 
@@ -220,6 +214,7 @@ onMounted(() => {
   getUser()
    
 }) 
+
 </script>
 
 <style scoped>
