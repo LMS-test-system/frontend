@@ -345,6 +345,7 @@ import { ref, reactive, computed, onMounted } from "vue";
 import { teacherService } from "../../services/teacher";
 import { useRouter } from "vue-router";
 import { roleService } from "../../services/role";
+import {reportErr} from '../../constants/report'
 
 const isShowModal = ref(false);
 
@@ -392,15 +393,7 @@ const updateList = () => {
       teachers.value = res.data;
     })
     .catch((error) => {
-      if (
-        error.message == "Request failed with status code 401" ||
-        error.message == "token expired" ||
-        error.message == "token not found"
-      ) {
-        router.push({ name: "login" });
-      } else {
-        console.log(error);
-      }
+      reportErr(error)
     });
 };
 
@@ -418,7 +411,6 @@ const addContact = (event) => {
   teacherService
     .create(formdata)
     .then((res) => {
-      console.log(res);
       if (res.login == 201) {
         contactInfo.full_name = "";
         contactInfo.phone_number = "";
@@ -432,14 +424,7 @@ const addContact = (event) => {
       }
     })
     .catch((error) => {
-      if (
-        error.message == "Request failed with login code 401" ||
-        error.message == "token expired" ||
-        error.message == "token not found"
-      ) {
-        router.push({ name: "login" });
-      }
-      console.log(error);
+      reportErr(error)
     });
 };
 
@@ -453,7 +438,7 @@ const modifyContact = (event) => {
   teacherService
     .update(id, formdata)
     .then((res) => {
-      if (res.login == 200) {
+      if (res.status == 200) {
         contactInfo.role_id = "";
         isUpdate.value = false;
         updateList();
@@ -461,14 +446,7 @@ const modifyContact = (event) => {
       }
     })
     .catch((error) => {
-      if (
-        error.message == "Request failed with status code 401" ||
-        error.message == "token expired" ||
-        error.message == "token not found"
-      ) {
-        router.push({ name: "login" });
-      }
-      console.log(error);
+      reportErr(error)
     });
 };
 
@@ -489,15 +467,7 @@ onMounted(() => {
       roles.value = res.data;
     })
     .catch((error) => {
-      if (
-        error.message == "Request failed with status code 401" ||
-        error.message == "token expired" ||
-        error.message == "token not found"
-      ) {
-        router.push({ name: "login" });
-      } else {
-        console.log(error);
-      }
+      reportErr(error)
     });
 });
 </script>

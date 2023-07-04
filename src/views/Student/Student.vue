@@ -362,6 +362,7 @@ import { studentService } from "../../services/student";
 import { groupService } from "../../services/group";
 import { roleService } from "../../services/role";
 import { useRouter } from "vue-router";
+import {reportErr} from '../../constants/report'
 
 const router = useRouter();
 const store = studentStore();
@@ -412,15 +413,7 @@ const updateList = () => {
       store.state.list = res.data;
     })
     .catch((error) => {
-      if (
-        error.message == "Request failed with status code 401" ||
-        error.message == "token expired" ||
-        error.message == "token not found"
-      ) {
-        router.push({ name: "login" });
-      } else {
-        console.log(error);
-      }
+      reportErr(error)
     });
 };
 
@@ -453,14 +446,7 @@ const addContact = (evet) => {
       }
     })
     .catch((error) => {
-      if (
-        error.message == "Request failed with login code 401" ||
-        error.message == "token expired" ||
-        error.message == "token not found"
-      ) {
-        router.push({ name: "login" });
-      }
-      console.log(error);
+      reportErr(error)
     });
 };
 
@@ -482,14 +468,7 @@ const modifyContact = (event) => {
       }
     })
     .catch((error) => {
-      if (
-        error.message == "Request failed with status code 401" ||
-        error.message == "token expired" ||
-        error.message == "token not found"
-      ) {
-        router.push({ name: "login" });
-      }
-      console.log(error);
+      reportErr(error)
     });
 };
 
@@ -512,15 +491,7 @@ onMounted(() => {
       groups.value = res.data;
     })
     .catch((error) => {
-      if (
-        error.message == "Request failed with status code 401" ||
-        error.message == "token expired" ||
-        error.message == "token not found"
-      ) {
-        router.push({ name: "login" });
-      } else {
-        console.log(error);
-      }
+      reportErr(error)
     });
 
   roleService
@@ -529,15 +500,7 @@ onMounted(() => {
       roles.value = res.data;
     })
     .catch((error) => {
-      if (
-        error.message == "Request failed with status code 401" ||
-        error.message == "token expired" ||
-        error.message == "token not found"
-      ) {
-        router.push({ name: "login" });
-      } else {
-        console.log(error);
-      }
+      reportErr(error)
     });
 });
 </script>
