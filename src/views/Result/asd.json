@@ -1,0 +1,29 @@
+[
+  {
+    "id": "99b",
+    "name": "Cyber security",
+    "image_id": "a5s",
+    "image": {
+      "id": "a5s",
+      "file_name": "JPI.jpg"
+    }
+  },
+  {
+    "id": "7fa",
+    "name": "Computer Science",
+    "image_id": "d57",
+    "image": {
+      "id": "d57",
+      "file_name": "JPI.jpg"
+    }
+  },
+  {
+    "id": "e8e",
+    "name": "Tourism",
+    "image_id": "9df",
+    "image": {
+      "id": "9df",
+      "file_name": "WES.jpg"
+    }
+  }
+]

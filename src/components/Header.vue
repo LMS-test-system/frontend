@@ -53,7 +53,9 @@ const toggleSettings = () => {
 };
 
 const logout = () => {
-  localStorage.clear();
+  localStorage.removeItem("role");
+  localStorage.removeItem("token");
+  localStorage.removeItem("staff_id");
   authStore.clear();
   router.push({ name: "login" });
 };
