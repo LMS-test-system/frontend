@@ -230,7 +230,7 @@ const clear = () => {
     el.answer = null;
     el.is_right = false;
   });
-  
+
   closeModal();
 };
 

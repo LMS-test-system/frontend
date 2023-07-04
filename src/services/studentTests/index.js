@@ -1,10 +1,9 @@
 import axios from "../axios";
-import  {useAuthStore} from "../../stores/auth/auth";
+import { useAuthStore } from "../../stores/auth/auth";
 
 // const store = useAuthStore();
 
 export const testService = {
-  
   getAll: () =>
     axios.get(`/test`, {
       headers: {
@@ -12,29 +11,36 @@ export const testService = {
       },
     }),
 
-    getOne: (id) =>
+  getOne: (id) =>
     axios.get(`/test/${id}`, {
       headers: {
         Authorization: `Bearer ${useAuthStore().getToken}`,
       },
     }),
 
-    createResult: (result) =>
+  createResult: (result) =>
     axios.post(`/result`, result, {
       headers: {
         Authorization: `Bearer ${useAuthStore().getToken}`,
       },
     }),
 
-    createResultQuestion: (payload) =>
+  createResultQuestion: (payload) =>
     axios.post(`/result-question`, payload, {
       headers: {
         Authorization: `Bearer ${useAuthStore().getToken}`,
       },
     }),
 
-    createResultAnswer: (payload) =>
+  createResultAnswer: (payload) =>
     axios.post(`/result-answer`, payload, {
+      headers: {
+        Authorization: `Bearer ${useAuthStore().getToken}`,
+      },
+    }),
+
+  checkResult: (result) =>
+    axios.post(`/result/check`, result, {
       headers: {
         Authorization: `Bearer ${useAuthStore().getToken}`,
       },
