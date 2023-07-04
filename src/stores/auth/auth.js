@@ -7,6 +7,7 @@ export const useAuthStore = defineStore("auth", () => {
     role: "",
     staff_id: "",
     errorMessage: "",
+    user: '',
   });
 
   const setToken = (token) => {
@@ -20,6 +21,9 @@ export const useAuthStore = defineStore("auth", () => {
   const setStaffId = (staff_id) => {
     state.staff_id = staff_id;
   };
+  const setUser = (staff) => {
+    state.user = staff;
+  };
 
   const setErrorMessage = (errorMessage) => {
     state.errorMessage = errorMessage;
@@ -28,6 +32,7 @@ export const useAuthStore = defineStore("auth", () => {
   const getToken = computed(() => state.token);
 
   const getRole = computed(() => state.role);
+  const getUser = computed(() => state.user);
 
   const getStaffId = computed(() => state.staff_id);
 
@@ -38,6 +43,7 @@ export const useAuthStore = defineStore("auth", () => {
     state.role = "";
     state.staff_id = "";
     state.errorMessage = "";
+    state.user= '';
   };
 
   return {
@@ -49,6 +55,8 @@ export const useAuthStore = defineStore("auth", () => {
     getRole,
     getStaffId,
     getErrorMessage,
+    getUser,
     clear,
+    setUser,
   };
 });
