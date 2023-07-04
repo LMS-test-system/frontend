@@ -44,22 +44,26 @@ const router = createRouter({
           name: "test-item",
           component: TestItem,
           beforeEnter: (to, from, next) => {
-            const result = {
-              student_id: useAuthStore().getStaffId,
-              test_id: to.params.id,
-            };
+            if (useAuthStore().getRole == "student") {
+              const result = {
+                student_id: useAuthStore().getStaffId,
+                test_id: to.params.id,
+              };
 
-            resultService
-              .checkResult(result)
-              .then((res) => {
-                if (res.data.check) {
-                  next();
-                }
-              })
-              .catch((error) => {
-                router.push("/test");
-                reportErr(error);
-              });
+              resultService
+                .checkResult(result)
+                .then((res) => {
+                  if (res.data.check) {
+                    next();
+                  }
+                })
+                .catch((error) => {
+                  next("/test");
+                  reportErr(error);
+                });
+            } else {
+              next();
+            }
           },
         },
         {
