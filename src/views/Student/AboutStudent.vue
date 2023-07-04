@@ -22,7 +22,7 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import { useRouter, useRoute } from "vue-router";
-import { useStudent } from "../../services/student";
+import { studentService } from "../../services/student";
 
 const router = useRouter();
 const route = useRoute();
@@ -32,7 +32,7 @@ const back = () => {
   router.go(-1);
 };
 onMounted(() => {
-  useStudent.getOne(student_id).then((res) => {
+  studentService.getOne(student_id).then((res) => {
     student.value = res.data;
   });
 });

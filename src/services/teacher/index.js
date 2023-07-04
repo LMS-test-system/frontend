@@ -1,12 +1,17 @@
 import axios from "../axios";
 
-export const useTeacher = {
+export const teacherService = {
     create: (state) => axios.post("/teacher", state, {
         headers:{
             "Authorization": `Bearer ${localStorage.getItem('token')}`
         }
     }),
     list : () => axios.get(`/teacher`, {
+        headers:{
+            "Authorization": `Bearer ${localStorage.getItem('token')}`
+        }
+    }),
+    findOne : (id) => axios.get(`/teacher/${id}`, {
         headers:{
             "Authorization": `Bearer ${localStorage.getItem('token')}`
         }

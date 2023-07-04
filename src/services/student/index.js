@@ -37,10 +37,21 @@ export const studentService = {
       },
     }),
 
-  getOneFull: (id) =>
+    updateGroup: (id, state)=> axios.patch(`/student/group/${id}`, state, {
+        headers:{
+            "Authorization": `Bearer ${useAuthStore().getToken}`
+        }
+    }),
+
+    getOneFull: (id) =>
     axios.get(`/student/full/${id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
-    }),
-};
+    })
+
+    
+}
+
+
+ 

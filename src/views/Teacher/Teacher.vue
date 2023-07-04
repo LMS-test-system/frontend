@@ -88,8 +88,8 @@
           <!-- Modal body -->
           <form>
             <div class="grid gap-4 mb-4 sm:grid-cols-1">
-              <div class="flex justify-between items-center gap-4">
-                <div class="w-1/2">
+              <div v-if="!isUpdate" class="flex justify-between items-center gap-4 flex-wrap">
+                <div class="w-full">
                   <label
                     for="full_name"
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -105,7 +105,7 @@
                     required=""
                   />
                 </div>
-                <div class="w-1/2">
+                <div class="w-[48%]">
                   <label
                     for="phone_number"
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -120,8 +120,38 @@
                     required=""
                   />
                 </div>
+                <div class="w-[48%]">
+                  <label
+                    for="phone_number"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >Email</label
+                  >
+                  <input
+                    v-model="contactInfo.email"
+                    type="email"
+                    name="phone_number"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="student@mail.uz"
+                    required=""
+                  />
+                </div>
+                <div class="w-full">
+                  <label
+                    for="phone_number"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >Telegram link</label
+                  >
+                  <input
+                    v-model="contactInfo.telegram_link"
+                    type="text"
+                    name="phone_number"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="https://t.me/username"
+                    required=""
+                  />
+                </div>
               </div>
-              <div class="flex justify-between items-center gap-4">
+              <div v-if="!isUpdate" class="flex justify-between items-center gap-4">
                 <div class="w-1/2">
                   <label
                     for="login"
@@ -154,20 +184,36 @@
                 </div>
               </div>
               <div class="flex justify-beetwen items-center gap-4">
-                <div class="w-1/2">
+                <!-- <div class="w-1/2">
                   <select
-                    id="category"
-                    class="block w-[95%] mt-2 text-sm text-gray-900 rounded-md border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 py-2"
+                    id=""
+                    v-model="contactInfo.group_id"
+                    class="w-full mt-2 text-sm text-gray-900 rounded-md border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 py-2"
                   >
-                    <option value="Guruhni tanlang">Guruhni tanlang</option>
+                    <option selected disabled value="">Guruhni tanlang</option>
+                    <option
+                      v-for="group in groups"
+                      :key="group.id"
+                      :value="group.id"
+                    >
+                      {{ group.name }}
+                    </option>
                   </select>
-                </div>
+                </div> -->
                 <div class="w-1/2">
                   <select
-                    id="category"
-                    class="block w-[95%] mt-2 text-sm text-gray-900 rounded-md border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 py-2"
+                    id=""
+                    v-model="contactInfo.role_id"
+                    class="w-full mt-2 text-sm text-gray-900 rounded-md border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 py-2"
                   >
-                    <option value="Matematika">Fan tanlang</option>
+                    <option selected disabled value="">Roleni tanlang</option>
+                    <option
+                      v-for="role in roles"
+                      :key="role.id"
+                      :value="role.id"
+                    >
+                      {{ role.name }}
+                    </option>
                   </select>
                 </div>
               </div>
@@ -232,35 +278,34 @@
               <thead class="text-md text-white font-bold uppercase bg-gray-500">
                 <tr class="text-center">
                   <th scope="col" class="px-4 py-3 text-left">I.F.O</th>
-                  <th scope="col" class="px-4 py-3">Fan o'qituvchisi</th>
                   <th scope="col" class="px-4 py-3">Telefon raqami</th>
-                  <th scope="col" class="px-4 py-3">Holati</th>
+                  <th scope="col" class="px-4 py-3">Email</th>
+                  <th scope="col" class="px-4 py-3">Telegram</th>
                   <th scope="col" class="px-10 py-3 text-center">To'liq</th>
                 </tr>
               </thead>
               <tbody class="">
-                <tr class="border-b dark:border-gray-700">
-                  <!-- v-for="el in computedList" :key="el.id" -->
-                  <td class="px-4 py-3">Full ndfsdfsdfsddfsdfsdfsfame</td>
+                <tr v-for="teacher in teachers" :key="teacher.id" class="border-b dark:border-gray-700">
+                  <td class="px-4 py-3">{{ teacher.full_name }}</td>
                   <td class="px-4 py-3">
                     <p
                       class="bg-blue-300 text-teal-900 py-1 text-center rounded-full font-semibold"
                     >
-                      Fan o'qituvchisi
+                    {{ teacher.phone }}
                     </p>
                   </td>
                   <td class="px-4 py-3">
                     <p
                       class="bg-red-200 text-red-600 py-1 text-center rounded-full font-semibold"
                     >
-                      +998901234567
+                      {{ teacher.email }}
                     </p>
                   </td>
                   <td class="px-4 py-3">
                     <p
                       class="bg-blue-200 text-green-600 py-1 text-center rounded-full font-semibold"
                     >
-                      active
+                      {{ teacher.telegram }}
                     </p>
                   </td>
                   <td class="px-4 py-3 text-[20px]">
@@ -269,11 +314,11 @@
                     >
                       <!-- id bo'yicha kiriladi -->
                       <a
-                        href="/about_teacher"
+                        @click="oneTeacher(teacher.id)"
                         class="px-4 py-1 text-white hover:bg-green-700 text-sm rounded-md bg-green-500"
                         ><p>kirish</p></a
                       >
-                      <button @click="updateContact(el.id)">
+                      <button @click="updateContact(teacher.id)">
                         <div
                           class="w-6 h-6 py-1 rounded-md bg-blue-500 mr-4 cursor-pointer"
                         >
@@ -297,18 +342,18 @@
 
 <script setup>
 import { ref, reactive, computed, onMounted } from "vue";
-import { teacherStore } from "../../stores/teacherStore";
-import { useTeacher } from "../../services/teacher";
+import { teacherService } from "../../services/teacher";
 import { useRouter } from "vue-router";
+import { roleService } from "../../services/role";
+import {reportErr} from '../../constants/report'
 
 const isShowModal = ref(false);
 
 const router = useRouter();
-const store = teacherStore();
 const modal = ref(false);
 const isUpdate = ref(false);
-let computedList = ref([]);
-
+const teachers = ref([]);
+const roles = ref([])
 const contactInfo1 = reactive({
   searchData: "",
 });
@@ -316,125 +361,114 @@ const contactInfo1 = reactive({
 const contactInfo = reactive({
   full_name: "",
   phone_number: "",
+  email: "",
+  telegram_link: "",
   login: "",
   password: "",
+  role_id: "",
 });
+
+const oneTeacher = (id) => {
+  router.push(`/teacher/${id}`);
+};
 
 const toggleModal = () => {
   if (modal.value) {
     isUpdate.value = false;
     contactInfo.full_name = "";
     contactInfo.phone_number = "";
+    contactInfo.email = "";
+    contactInfo.telegram_link = "";
     contactInfo.login = "";
     contactInfo.password = "";
+    contactInfo.role_id = "";
   }
   modal.value = !modal.value;
 };
 
 const updateList = () => {
-  useTeacher
+  teacherService
     .list()
     .then((res) => {
-      store.state.list = res.data;
+      teachers.value = res.data;
     })
     .catch((error) => {
-      if (
-        error.message == "Request failed with login code 401" ||
-        error.message == "token expired" ||
-        error.message == "token not found"
-      ) {
-        router.push({ name: "login" });
-      } else {
-        console.log(error);
-      }
+      reportErr(error)
     });
 };
 
-const addContact = (evet) => {
-  evet.preventDefault();
-  const contact = {
-    full_name: contactInfo.full_name,
-    phone_number: contactInfo.phone_number,
-    login: contactInfo.login,
-    password: contactInfo.password,
-  };
+const addContact = (event) => {
+  event.preventDefault();
+  let formdata = new FormData();
+  formdata.append("full_name", contactInfo.full_name);
+  formdata.append("email", contactInfo.email);
+  formdata.append("phone", contactInfo.phone_number);
+  formdata.append("telegram", contactInfo.telegram_link);
+  formdata.append("login", contactInfo.login);
+  formdata.append("password", contactInfo.password);
+  formdata.append("role_id", contactInfo.role_id);
 
-  useTeacher
-    .create(contact)
+  teacherService
+    .create(formdata)
     .then((res) => {
       if (res.login == 201) {
         contactInfo.full_name = "";
         contactInfo.phone_number = "";
         contactInfo.login = "";
         contactInfo.password = "";
+        contactInfo.email = "";
+        contactInfo.telegram_link = "";
+        contactInfo.role_id = "";
         toggleModal();
         updateList();
       }
     })
     .catch((error) => {
-      if (
-        error.message == "Request failed with login code 401" ||
-        error.message == "token expired" ||
-        error.message == "token not found"
-      ) {
-        router.push({ name: "login" });
-      }
-      console.log(error);
+      reportErr(error)
     });
 };
 
 const modifyContact = (event) => {
   event.preventDefault();
-  const id = localStorage.getItem("id");
-  const contact = {
-    full_name: contactInfo.full_name,
-    password: contactInfo.password,
-    phone_number: contactInfo.phone_number,
-    login: contactInfo.login,
-  };
+  const id = localStorage.getItem("teacher_id");
+  let formdata = new FormData();
+  
+  formdata.append("role_id", contactInfo.role_id);
 
-  useTeacher
-    .update(id, contact)
+  teacherService
+    .update(id, formdata)
     .then((res) => {
-      if (res.login == 200) {
-        contactInfo.full_name = "";
-        contactInfo.phone_number = "";
-        contactInfo.login = "";
-        contactInfo.password = "";
+      if (res.status == 200) {
+        contactInfo.role_id = "";
         isUpdate.value = false;
         updateList();
         toggleModal();
       }
     })
     .catch((error) => {
-      if (
-        error.message == "Request failed with login code 401" ||
-        error.message == "token expired" ||
-        error.message == "token not found"
-      ) {
-        router.push({ name: "login" });
-      }
-      console.log(error);
+      reportErr(error)
     });
 };
 
-const updateContact = (id) => {
-  localStorage.setItem("id", id);
+const updateContact = async (id) => {
+  localStorage.setItem("teacher_id", id);
   isUpdate.value = true;
-  const foundContact = store.findOne(id);
-  contactInfo.full_name = foundContact[0].full_name;
-  contactInfo.phone_number = foundContact[0].phone_number;
-  contactInfo.login = foundContact[0].login;
-  contactInfo.password = foundContact[0].password;
+  const foundContact = await teacherService.findOne(id);
+  contactInfo.role_id = foundContact.data.role_id;
   toggleModal();
 };
 
-computedList = computed(() => {
-  return store.state.list;
-});
-console.log(computedList);
+
 onMounted(() => {
   updateList();
+  roleService
+    .getAll()
+    .then((res) => {
+      roles.value = res.data;
+    })
+    .catch((error) => {
+      reportErr(error)
+    });
 });
 </script>
 

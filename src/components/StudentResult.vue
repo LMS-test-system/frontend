@@ -80,7 +80,7 @@ onMounted(async () => {
 });
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .result-container {
   max-width: 800px;
   margin: 0 auto;
