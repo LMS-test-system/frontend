@@ -2,17 +2,33 @@
     <div class="p-3">
         <div class="flex justify-between items-center">
             <h2 class="uppercase dark:text-white text-gray-900 text-xl font-bold">O'qituvchi</h2>
-            <a href="/teacher" class="flex items-center justify-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-6 py-3">
+            <a @click="back" class="flex items-center justify-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-6 py-3">
                 Orqaga qaytish
             </a>
         </div>
         <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 py-3">
+        <pre>{{ teacher }}</pre>
         </div>
     </div>
 </template>
 
 <script setup>
+import { onMounted, ref } from "vue";
+import { useRouter, useRoute } from "vue-router";
+import { teacherService } from "../../services/teacher";
 
+const router = useRouter();
+const route = useRoute();
+const teacher_id = route.params.id;
+const teacher = ref([]);
+const back = () => {
+  router.go(-1);
+};
+onMounted(() => {
+  teacherService.findOne(teacher_id).then((res) => {
+    teacher.value = res.data;
+  });
+});
 </script>
 
 <style lang="scss" scoped>

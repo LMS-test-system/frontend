@@ -13,7 +13,7 @@
                 <div class="w-[225px] h-[250px] rounded-t-md absolute setting top-12 right-0 z-10" :class="isSettings ? '' : 'hidden'">
                     <div class="h-[30%] bg-white border rounded-t-md flex items-end justify-between pr-2 relative">
                         <Avatar status="online" size="lg" class="absolute top-10 left-[73px]" rounded :img="`${api_url}/image/file/${user.image?.file_name}`"/>
-                        <i class="bx bxs-edit-alt text-[18px] hover:bg-gray-200 p-1 rounded-full"></i>
+                        <i @click="router.push({ name: 'account', params: {id: user.id} })" class="bx bxs-edit-alt text-[18px] hover:bg-gray-200 p-1 rounded-full"></i>
                     </div>
                     <div class="flex flex-col gap-1 pt-10 items-center justify-center text-black text-[14px]">
                         <p>{{ user.full_name }}</p>
