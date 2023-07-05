@@ -13,7 +13,7 @@ export const useStudent = {
             "Authorization": `Bearer ${useAuthStore().getToken}`
         }
     }),
-    getOne : (id) => axios.get(`/student/${id}`, {
+    getOne : (id) => axios.get(`/student/full/${id}`, {
         headers:{
             "Authorization": `Bearer ${useAuthStore().getToken}`
         }
