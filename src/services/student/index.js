@@ -16,12 +16,13 @@ export const studentService = {
       },
     }),
 
+
   remove: (id) =>
     axios.delete(`/student/${id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
-    }),
+   }),
 
   update: (id, state) =>
     axios.patch(`/student/${id}`, state, {
