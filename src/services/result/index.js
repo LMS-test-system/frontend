@@ -52,4 +52,11 @@ export const resultService = {
         Authorization: `Bearer ${useAuthStore().getToken}`,
       },
     }),
+
+  calculateResult: (id) =>
+    axios.get(`/result/calculate/${id}`, {
+      headers: {
+        Authorization: `Bearer ${useAuthStore().getToken}`,
+      },
+    }),
 };

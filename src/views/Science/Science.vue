@@ -35,7 +35,7 @@
     <div
       class="flex flex-col md:flex-row items-center justify-end mt-10 space-y-3 md:space-y-0 md:space-x-4 py-3"
     >
-      <button 
+      <button
         v-if="role == 'admin' || role == 'super-admin'"
         @click="toggleModal"
         type="button"
@@ -195,8 +195,10 @@
                         class="px-4 py-1 text-white hover:bg-green-700 text-sm rounded-md bg-green-500"
                         ><p>kirish</p></a
                       >
-                      <button v-if="role == 'admin' || role == 'super-admin'" 
-                        @click="updateContact(el.id)">
+                      <button
+                        v-if="role == 'admin' || role == 'super-admin'"
+                        @click="updateContact(el.id)"
+                      >
                         <div
                           class="w-6 h-6 py-1 rounded-md bg-blue-500 mr-4 cursor-pointer"
                         >
@@ -223,9 +225,9 @@ import { ref, reactive, computed, onMounted } from "vue";
 import { scienceStore } from "../../stores/scienceStore";
 import { useScience } from "../../services/science";
 import { useRouter } from "vue-router";
-import {reportErr} from '../../constants/report'
+import { reportErr } from "../../constants/report";
 
-const role = localStorage.getItem('role')
+const role = localStorage.getItem("role");
 const router = useRouter();
 const store = scienceStore();
 const modal = ref(false);
@@ -258,7 +260,7 @@ const updateList = () => {
       store.state.list = res.data;
     })
     .catch((error) => {
-      reportErr(error)
+      reportErr(error);
     });
 };
 
@@ -266,7 +268,6 @@ const addContact = (evet) => {
   evet.preventDefault();
   let formdata = new FormData();
   formdata.append("name", contactInfo.subject_name);
-
 
   useScience
     .create(formdata)
@@ -278,7 +279,7 @@ const addContact = (evet) => {
       }
     })
     .catch((error) => {
-      reportErr(error)
+      reportErr(error);
     });
 };
 
@@ -288,11 +289,9 @@ const modifyContact = (event) => {
   let formdata = new FormData();
   formdata.append("name", contactInfo.subject_name);
 
-
   useScience
     .update(id, formdata)
     .then((res) => {
-      console.log(res.status);
       if (res.status == 200) {
         contactInfo.subject_name = "";
         isUpdate.value = false;
@@ -301,7 +300,7 @@ const modifyContact = (event) => {
       }
     })
     .catch((error) => {
-      reportErr(error)
+      reportErr(error);
     });
 };
 
