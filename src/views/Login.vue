@@ -55,10 +55,10 @@ import { ref, reactive, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { ElNotification } from "element-plus";
 import { authService } from "../services/auth";
-
+import {useAuthStore} from '../stores/auth/auth'
 const router = useRouter();
 const route = useRoute();
-
+const store = useAuthStore()
 const role = ref();
 
 const data = reactive({
@@ -75,6 +75,7 @@ const login = () => {
   authService
     .login(user, role.value.value)
     .then((res) => {
+      // store.setUser(res.data.staff)
       ElNotification({
         title: "Signed in",
         type: "success",

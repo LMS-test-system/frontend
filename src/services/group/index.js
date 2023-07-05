@@ -4,8 +4,8 @@ import { useAuthStore } from "../../stores/auth/auth";
 // const authStore = useAuthStore();
 
 export const groupService = {
-  create: (subject) =>
-    axios.post("/group", subject, {
+  create: (group) =>
+    axios.post("/group", group, {
       headers: {
         Authorization: `Bearer ${useAuthStore().getToken}`,
       },
@@ -25,8 +25,8 @@ export const groupService = {
       },
     }),
 
-  update: (id, subject) =>
-    axios.patch(`/group/${id}`, subject, {
+  update: (id, group) =>
+    axios.patch(`/group/${id}`, group, {
       headers: {
         Authorization: `Bearer ${useAuthStore().getToken}`,
       },

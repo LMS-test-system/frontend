@@ -1,6 +1,10 @@
 <template>
   <div>
-    <SuperAdminTestItem v-if="authStore.getRole == 'super-admin'" />
+    <SuperAdminTestItem
+      v-if="
+        authStore.getRole == 'super-admin' || authStore.getRole == 'teacher'
+      "
+    />
     <SingleTestView v-if="authStore.getRole == 'student'" />
   </div>
 </template>

@@ -1,8 +1,11 @@
 <template>
   <div>
-    <SuperAdminTest v-if="authStore.getRole == 'super-admin'" />
-    <StudentTest v-if="authStore.getRole == 'student'"/>
-
+    <SuperAdminTest
+      v-if="
+        authStore.getRole == 'super-admin' || authStore.getRole == 'teacher'
+      "
+    />
+    <StudentTest v-if="authStore.getRole == 'student'" />
   </div>
 </template>
 

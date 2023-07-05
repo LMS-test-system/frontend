@@ -20,16 +20,20 @@
 
         <!-- <pre>{{ student.result }}</pre> -->
         </div>
+
     </div>
+    <div
+      class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 py-3"
+    >
+      <pre>{{ student }}</pre>
+    </div>
+  </div>
 </template>
 
 <script setup>
-import {onMounted, ref} from 'vue'
-import {useRouter, useRoute} from 'vue-router'
-import { useStudent } from '../../services/student';
-
-const router = useRouter()
-const route = useRoute()
+import { onMounted, ref } from "vue";
+import { useRouter, useRoute } from "vue-router";
+import { studentService } from "../../services/student";
 
 const api_url = import.meta.env.VITE_API_BASE_URL;
 const student_id = route.params.id
@@ -37,15 +41,12 @@ const student = ref([])
 const back = ()=>{
     router.go(-1)
 }
-onMounted(() => {
-    useStudent.getOne(student_id).then((res)=>{
-        student.value = res.data
-    })
 
-   
-})
+onMounted(() => {
+  studentService.getOneFull(student_id).then((res) => {
+    student.value = res.data;
+  });
+});
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>
