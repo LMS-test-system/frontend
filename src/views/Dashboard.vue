@@ -1,14 +1,12 @@
 <template>
   <TotalAll class="mt-10"/>
-  <div class="flex justify-between  gap-6 mt-[100px]">
-    <div class="w-1/2">
-      <h1 class="text-xl my-5 ml-5">O'qituvchilar</h1>
-      <TableTeacher/>
-    </div>
-    <div class="w-1/2">
-      <h1 class="text-xl my-5 ml-5">Talabalar</h1>
-      <TableStudent/>
-    </div>
+  <div class="w-full mt-14">
+    <h1 class="text-xl my-5 ml-5">O'qituvchilar</h1>
+    <TableTeacher/>
+  </div>
+  <div class="mt-10">
+    <h1 class="text-xl my-5 ml-5">Talabalar</h1>
+    <TableStudent/>
   </div>
 </template>
 
