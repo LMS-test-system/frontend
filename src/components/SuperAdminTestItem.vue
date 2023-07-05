@@ -191,6 +191,7 @@ import { testService } from "../services/test";
 import { questionService } from "../services/question";
 import { answerService } from "../services/answer";
 import { useRoute, useRouter } from "vue-router";
+import { reportErr } from "../constants/report";
 
 const route = useRoute();
 const router = useRouter();
@@ -230,7 +231,7 @@ const clear = () => {
     el.answer = null;
     el.is_right = false;
   });
-  
+
   closeModal();
 };
 
@@ -246,26 +247,6 @@ const updateList = () => {
     });
 };
 
-const reportErr = (error) => {
-  const message = error?.response?.data?.message;
-  if (typeof message == "object") {
-    for (let i in message) {
-      setTimeout(() => {
-        ElNotification({
-          title: "Error",
-          message: message[i],
-          type: "warning",
-        });
-      }, i * 200);
-    }
-  } else {
-    ElNotification({
-      title: "Error",
-      message: message,
-      type: "warning",
-    });
-  }
-};
 
 const submit = () => {
   const item = {

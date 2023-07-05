@@ -19,6 +19,7 @@ import { reactive, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { ElNotification } from "element-plus";
 import { subService } from "../../services/subject";
+import { reportErr } from "../../constants/report";
 
 const route = useRoute();
 
@@ -28,27 +29,6 @@ const data = reactive({
   test: {},
 });
 
-const reportErr = (error) => {
-  const message = error?.response?.data?.message;
-  if (typeof message == "object") {
-    for (let i in message) {
-      setTimeout(() => {
-        ElNotification({
-          title: "Error",
-          message: message[i],
-          type: "warning",
-        });
-      }, i * 200);
-    }
-  } else {
-    console.log(error);
-    ElNotification({
-      title: "Error",
-      message: message,
-      type: "warning",
-    });
-  }
-};
 
 onMounted(() => {
   subService

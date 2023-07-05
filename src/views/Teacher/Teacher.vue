@@ -61,7 +61,7 @@
           >
             <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
               <span v-if="!isUpdate">Yangi o'qituvchi qo'shish</span>
-              <span v-else>O'qituvchi ma'lumotini yangilash </span>
+              <span v-else>O'qituvchi ma'lumotini yangilash</span>
             </h3>
             <button
               @click="toggleModal"
@@ -183,23 +183,7 @@
                   />
                 </div>
               </div>
-              <div class="flex justify-beetwen items-center gap-4">
-                <!-- <div class="w-1/2">
-                  <select
-                    id=""
-                    v-model="contactInfo.group_id"
-                    class="w-full mt-2 text-sm text-gray-900 rounded-md border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 py-2"
-                  >
-                    <option selected disabled value="">Guruhni tanlang</option>
-                    <option
-                      v-for="group in groups"
-                      :key="group.id"
-                      :value="group.id"
-                    >
-                      {{ group.name }}
-                    </option>
-                  </select>
-                </div> -->
+              <div class="flex justify-beetwen items-center">
                 <div class="w-1/2">
                   <select
                     id=""
@@ -281,49 +265,56 @@
                   <th scope="col" class="px-4 py-3">Telefon raqami</th>
                   <th scope="col" class="px-4 py-3">Email</th>
                   <th scope="col" class="px-4 py-3">Telegram</th>
+                  <!-- <th scope="col" class="px-4 py-3">Holati</th> -->
                   <th scope="col" class="px-10 py-3 text-center">To'liq</th>
                 </tr>
               </thead>
               <tbody class="">
-                <tr v-for="teacher in teachers" :key="teacher.id" class="border-b dark:border-gray-700">
-                  <td class="px-4 py-3">{{ teacher.full_name }}</td>
-                  <td class="px-4 py-3">
-                    <p
-                      class="bg-blue-300 text-teal-900 py-1 text-center rounded-full font-semibold"
-                    >
-                    {{ teacher.phone }}
-                    </p>
-                  </td>
+                <tr
+                  v-for="el in computedList"
+                  :key="el.id"
+                  class="border-b dark:border-gray-700"
+                >
+                  <!-- v-for="el in computedList" :key="el.id" -->
+                  <td class="px-4 py-3">{{ el.full_name }}</td>
                   <td class="px-4 py-3">
                     <p
                       class="bg-red-200 text-red-600 py-1 text-center rounded-full font-semibold"
                     >
-                      {{ teacher.email }}
+                      {{ el.phone }}
                     </p>
                   </td>
                   <td class="px-4 py-3">
                     <p
-                      class="bg-blue-200 text-green-600 py-1 text-center rounded-full font-semibold"
+                      class="bg-green-200 text-green-600 py-1 text-center rounded-full font-semibold"
                     >
-                      {{ teacher.telegram }}
+                      {{ el.email }}
                     </p>
                   </td>
+                  <td class="px-4 py-3">
+                    <p
+                      class="bg-gray-200 text-gray-600 py-1 text-center rounded-full font-semibold"
+                    >
+                      {{ el.telegram }}
+                    </p>
+                  </td>
+                  <!-- <td class="px-4 py-3"><p class="bg-blue-200 text-green-600 py-1 text-center rounded-full font-semibold"></p></td> -->
                   <td class="px-4 py-3 text-[20px]">
                     <div
                       class="bg-white flex justify-center items-center gap-4"
                     >
                       <!-- id bo'yicha kiriladi -->
                       <a
-                        @click="oneTeacher(teacher.id)"
+                        @click="oneTeacher(el.id)"
                         class="px-4 py-1 text-white hover:bg-green-700 text-sm rounded-md bg-green-500"
                         ><p>kirish</p></a
                       >
-                      <button @click="updateContact(teacher.id)">
+                      <button @click="updateContact(el.id)">
                         <div
                           class="w-6 h-6 py-1 rounded-md bg-blue-500 mr-4 cursor-pointer"
                         >
                           <i
-                            class="bx bx-task text-white text-[16px] flex items-center justify-center"
+                            class="bx bx-edit text-white text-[16px] flex items-center justify-center"
                           ></i>
                         </div>
                       </button>
@@ -342,21 +333,27 @@
 
 <script setup>
 import { ref, reactive, computed, onMounted } from "vue";
+import { teacherStore } from "../../stores/teacherStore";
 import { teacherService } from "../../services/teacher";
-import { useRouter } from "vue-router";
 import { roleService } from "../../services/role";
+import { useRouter } from "vue-router";
 import {reportErr} from '../../constants/report'
 
-const isShowModal = ref(false);
-
 const router = useRouter();
+const store = teacherStore();
 const modal = ref(false);
 const isUpdate = ref(false);
-const teachers = ref([]);
-const roles = ref([])
+const roles = ref([]);
+
+let computedList = ref([]);
+
 const contactInfo1 = reactive({
   searchData: "",
 });
+
+const oneTeacher = (id) => {
+  router.push(`/teacher/${id}`);
+};
 
 const contactInfo = reactive({
   full_name: "",
@@ -365,12 +362,8 @@ const contactInfo = reactive({
   telegram_link: "",
   login: "",
   password: "",
-  role_id: "",
+  role_id: ""
 });
-
-const oneTeacher = (id) => {
-  router.push(`/teacher/${id}`);
-};
 
 const toggleModal = () => {
   if (modal.value) {
@@ -390,28 +383,28 @@ const updateList = () => {
   teacherService
     .list()
     .then((res) => {
-      teachers.value = res.data;
+      store.state.list = res.data;
     })
     .catch((error) => {
       reportErr(error)
     });
 };
 
-const addContact = (event) => {
-  event.preventDefault();
+const addContact = (evet) => {
+  evet.preventDefault();
   let formdata = new FormData();
   formdata.append("full_name", contactInfo.full_name);
   formdata.append("email", contactInfo.email);
   formdata.append("phone", contactInfo.phone_number);
   formdata.append("telegram", contactInfo.telegram_link);
   formdata.append("login", contactInfo.login);
-  formdata.append("password", contactInfo.password);
+  formdata.append("password", contactInfo.password)
   formdata.append("role_id", contactInfo.role_id);
 
   teacherService
     .create(formdata)
     .then((res) => {
-      if (res.login == 201) {
+      if (res.status == 201) {
         contactInfo.full_name = "";
         contactInfo.phone_number = "";
         contactInfo.login = "";
@@ -419,6 +412,7 @@ const addContact = (event) => {
         contactInfo.email = "";
         contactInfo.telegram_link = "";
         contactInfo.role_id = "";
+  
         toggleModal();
         updateList();
       }
@@ -432,14 +426,12 @@ const modifyContact = (event) => {
   event.preventDefault();
   const id = localStorage.getItem("teacher_id");
   let formdata = new FormData();
-  
-  formdata.append("role_id", contactInfo.role_id);
 
   teacherService
     .update(id, formdata)
     .then((res) => {
       if (res.status == 200) {
-        contactInfo.role_id = "";
+  
         isUpdate.value = false;
         updateList();
         toggleModal();
@@ -450,21 +442,22 @@ const modifyContact = (event) => {
     });
 };
 
-const updateContact = async (id) => {
+const updateContact = (id) => {
   localStorage.setItem("teacher_id", id);
   isUpdate.value = true;
-  const foundContact = await teacherService.findOne(id);
-  contactInfo.role_id = foundContact.data.role_id;
   toggleModal();
 };
 
-
+computedList = computed(() => {
+  return store.state.list;
+});
 onMounted(() => {
   updateList();
   roleService
     .getAll()
     .then((res) => {
       roles.value = res.data;
+      console.log(roles.value);
     })
     .catch((error) => {
       reportErr(error)
@@ -472,4 +465,4 @@ onMounted(() => {
 });
 </script>
 
-<style lang="" scoped></style>
+<style lang="scss" scoped></style>
