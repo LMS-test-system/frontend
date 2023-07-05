@@ -39,7 +39,7 @@
               ? 'bg-blue-300'
               : questionIndex == index
               ? 'bg-blue-300'
-              : el.answer_id
+              : el.answer_id || el?.answer?.length
               ? 'bg-green-300'
               : ''
           "
@@ -60,11 +60,13 @@
             class="flex items-center justify-start gap-2 mt-2"
           >
             <input
-              type="radio"
+              :type="el.is_multiple_answer ? 'checkbox' : 'radio'"
               :name="index"
               :value="ans.id"
-              @change="setAnswer($event, index)"
+              @change="setAnswer($event, index, el.is_multiple_answer)"
+              class="mt-2.5 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
             />
+
             {{ ans.answer }}
           </div>
         </div>
@@ -82,102 +84,49 @@ import { resultService } from "../services/result";
 import { useAuthStore } from "../stores/auth/auth";
 import { reportErr } from "../constants/report";
 
-const store = useAuthStore();
-
-const limit = ref(0);
-const min = ref(0);
-const sec = ref(0);
-const questionIndex = ref(0);
-
 const router = useRouter();
 const route = useRoute();
 
-const id = route.params.id;
+const authStore = useAuthStore();
+
+const time_limit = ref(0);
+const min = ref(0);
+const sec = ref(0);
+let timer = null;
+
+const questionIndex = ref(0);
+
+const test_id = route.params.id;
 
 const test = ref([]);
 const result = ref([]);
 
 const check = ref(false);
 
-let timer = null;
-
-const authStore = useAuthStore();
-
-const submitAnswers = async () => {
-  const time_spent = test.value.time_limit - Math.ceil(+limit.value / 60);
-
-  const staff_id = store.getStaffId;
-  const results_with_answer = result.value.filter(
-    (res) => res.answer_id !== undefined
-  );
-  try {
-    const resultBackend = await resultService.create({
-      student_id: staff_id,
-      time_spent,
-      test_id: id,
-    });
-
-    for (let i = 0; i < results_with_answer.length; i++) {
-      const result_question = await resultService.createResultQuestion({
-        is_right: result.value[i].is_right,
-        question_id: result.value[i].question_id,
-        result_id: resultBackend.data.id,
-      });
-      await resultService.createResultAnswer({
-        answer_id: results_with_answer[i].answer_id,
-        result_question_id: result_question.data.id,
-      });
-    }
-    ElNotification({
-      title: "Test submited",
-      type: "success",
-    });
-  } catch (error) {
-    reportErr(error);
-  }
-};
-
-const finishTest = () => {
-  router.push("/test");
-};
-
-const startTimer = () => {
-  timer = setInterval(() => {
-    limit.value--;
-    const { minutes, seconds } = parseSeconds(limit.value);
-    min.value = String(minutes).padStart(2, "0");
-    sec.value = String(seconds).padStart(2, "0");
-    if (limit.value == 0) {
-      clearInterval(timer);
-      ElNotification({
-        title: "Your time is up",
-        type: "warning",
-      });
-
-      router.push("/test");
-    }
-  }, 1);
-};
-
-const setAnswer = (event, index) => {
-  event.preventDefault();
-  result.value[index].answer_id = event.target.value;
-};
-
 const selectQuestion = (index) => {
   questionIndex.value = index;
 };
 
-const startTest = () => {
-  testService.getOne(id).then((res) => {
-    limit.value = res.data.time_limit * 60;
-    // limit.value = '10';
-    test.value = res.data;
-    res.data.question.forEach((item) => {
-      result.value.push({ question_id: item.id, is_right: true });
-    });
-    startTimer();
-  });
+const setAnswer = (event, index, is_multiple_answer) => {
+  event.preventDefault();
+  if (is_multiple_answer) {
+    if (event.target.checked) {
+      result.value[index].answer.push(event.target.value);
+    } else {
+      result.value[index].answer.forEach((el, ind) => {
+        if (el == event.target.value) result.value[index].answer.splice(ind, 1);
+      });
+    }
+  } else {
+    result.value[index].answer_id = event.target.value;
+  }
+};
+
+const parseSeconds = (seconds) => {
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+
+  return { minutes, seconds: remainingSeconds };
 };
 
 onMounted(() => {
@@ -185,32 +134,129 @@ onMounted(() => {
   startTest();
 });
 
-onBeforeRouteLeave(async (to, from, next) => {
-  if (limit.value == 0) {
-    if (check.value) {
-      await submitAnswers();
+const startTest = () => {
+  testService
+    .getOne(test_id)
+    .then((res) => {
+      time_limit.value = res.data.time_limit * 60;
+      // time_limit.value = '10';
+      test.value = res.data;
+      res.data.question.forEach((item) => {
+        result.value.push(
+          item.is_multiple_answer
+            ? {
+                question_id: item.id,
+                is_multiple_answer: item.is_multiple_answer,
+                answer: [],
+              }
+            : {
+                question_id: item.id,
+                is_multiple_answer: item.is_multiple_answer,
+                answer_id: null,
+              }
+        );
+      });
+      startTimer();
+    })
+    .catch((error) => {
+      reportErr(error);
+    });
+};
+
+const startTimer = () => {
+  timer = setInterval(() => {
+    time_limit.value--;
+    const { minutes, seconds } = parseSeconds(time_limit.value);
+    min.value = String(minutes).padStart(2, "0");
+    sec.value = String(seconds).padStart(2, "0");
+    if (time_limit.value == 0) {
+      clearInterval(timer);
+      ElNotification({
+        title: "Your time is up",
+        type: "warning",
+      });
+
+      finishTest();
     }
+  }, 1000);
+};
+
+const finishTest = () => {
+  router.push("/result");
+};
+
+onBeforeRouteLeave(async (to, from, next) => {
+  if (time_limit.value == 0) {
+    await submitAnswers();
     next();
   } else {
     const answer = window.confirm(
       "Test tugatiladi va javoblar qabul qilinadi, davom ettirishni hohlaysizmi?"
     );
     if (!answer) {
-      return false;
+      next(false);
     } else {
       await submitAnswers();
-      clearInterval(timer);
       next();
     }
   }
 });
 
-function parseSeconds(seconds) {
-  const minutes = Math.floor(seconds / 60);
-  const remainingSeconds = seconds % 60;
+const submitAnswers = async () => {
+  if (check.value) {
+    const time_spent =
+      test.value.time_limit - Math.ceil(+time_limit.value / 60);
+    const student_id = authStore.getStaffId;
+    const results_with_answer = result.value;
 
-  return { minutes, seconds: remainingSeconds };
-}
+    try {
+      const resultBackend = await resultService.create({
+        student_id,
+        time_spent,
+        test_id,
+      });
+
+      for (let i = 0; i < results_with_answer.length; i++) {
+        const result_question = await resultService.createResultQuestion({
+          is_right: true,
+          question_id: result.value[i].question_id,
+          result_id: resultBackend.data.id,
+        });
+        if (result.value[i].is_multiple_answer) {
+          if (result.value[i].answer.length) {
+            for (let j in result.value[i].answer) {
+              await resultService.createResultAnswer({
+                answer_id: results_with_answer[i].answer[j],
+                result_question_id: result_question.data.id,
+              });
+            }
+          } else {
+            await resultService.createResultAnswer({
+              answer_id: null,
+              result_question_id: result_question.data.id,
+            });
+          }
+        } else {
+          await resultService.createResultAnswer({
+            answer_id: results_with_answer[i].answer_id,
+            result_question_id: result_question.data.id,
+          });
+        }
+      }
+
+      await resultService.calculateResult(resultBackend.data.id);
+
+      ElNotification({
+        title: "Test submited",
+        type: "success",
+      });
+    } catch (error) {
+      reportErr(error);
+    }
+  }
+
+  clearInterval(timer);
+};
 </script>
 
 <style lang="scss" scoped></style>
