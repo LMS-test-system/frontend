@@ -505,4 +505,8 @@ onMounted(() => {
 });
 </script>
 
+<<<<<<< HEAD
 <style lang="scss" scoped></style>
+=======
+<style lang="scss" scoped></style>
+>>>>>>> ac5a31642ccc3b674382b9686de46b9d1db9b3a7

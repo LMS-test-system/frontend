@@ -412,7 +412,7 @@ const addContact = (evet) => {
         contactInfo.email = "";
         contactInfo.telegram_link = "";
         contactInfo.role_id = "";
-  
+
         toggleModal();
         updateList();
       }
@@ -431,7 +431,7 @@ const modifyContact = (event) => {
     .update(id, formdata)
     .then((res) => {
       if (res.status == 200) {
-  
+
         isUpdate.value = false;
         updateList();
         toggleModal();
