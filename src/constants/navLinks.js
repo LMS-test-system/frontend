@@ -2,25 +2,50 @@ export const navLinks = [
   {
     id: 1,
     title: "Dashboard",
-    link: "/admin-dashboard",
-    icon: "bx bx-pie-chart"
+    link: "/",
+    icon: "bx bxs-dashboard",
+    role: ["super-admin", "admin", "teacher"],
   },
   {
     id: 2,
-    title: "Teacher",
+    title: "O'qituvchilar",
     link: "/teacher",
-    icon: "bx bx-code-block"
+    icon: "bx bx-user-pin",
+    role: ["super-admin", "admin"],
   },
   {
-      id: 3,
-      title: "Student",
-      link: "/student",
-      icon: "bx bx-brain"
+    id: 3,
+    title: "O'quvchilar",
+    link: "/student",
+    icon: "bx bxs-layer-plus",
+    role: ["super-admin", "admin"],
   },
   {
-      id: 4,
-      title: "Science",
-      link: "/science",
-      icon: "bx bx-briefcase"
-  }
-]
+    id: 4,
+    title: "Guruhlar",
+    link: "/group",
+    icon: "bx bx-calendar-alt",
+    role: ["super-admin", "admin", "teacher"],
+  },
+  {
+    id: 5,
+    title: "Fanlar",
+    link: "/subject",
+    icon: "bx bx-book-open",
+    role: ["super-admin", "admin", "teacher"],
+  },
+  {
+    id: 6,
+    title: "Testlar",
+    link: "/test",
+    icon: "bx bxs-hourglass",
+    role: ["super-admin", "admin", "teacher", "student"],
+  },
+  {
+    id: 7,
+    title: "Natijalar",
+    link: "/result",
+    icon: "bx bxs-pie-chart-alt-2",
+    role: ["super-admin", "admin", "teacher", "student"],
+  },
+];
