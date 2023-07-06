@@ -88,7 +88,10 @@
           <!-- Modal body -->
           <form>
             <div class="grid gap-4 mb-4 sm:grid-cols-1">
-              <div v-if="!isUpdate" class="flex justify-between items-center gap-4 flex-wrap">
+              <div
+                v-if="!isUpdate"
+                class="flex justify-between items-center gap-4 flex-wrap"
+              >
                 <div class="w-full">
                   <label
                     for="full_name"
@@ -151,7 +154,10 @@
                   />
                 </div>
               </div>
-              <div v-if="!isUpdate" class="flex justify-between items-center gap-4">
+              <div
+                v-if="!isUpdate"
+                class="flex justify-between items-center gap-4"
+              >
                 <div class="w-1/2">
                   <label
                     for="login"
@@ -337,7 +343,7 @@ import { teacherStore } from "../../stores/teacherStore";
 import { teacherService } from "../../services/teacher";
 import { roleService } from "../../services/role";
 import { useRouter } from "vue-router";
-import {reportErr} from '../../constants/report'
+import { reportErr } from "../../constants/report";
 
 const router = useRouter();
 const store = teacherStore();
@@ -362,7 +368,7 @@ const contactInfo = reactive({
   telegram_link: "",
   login: "",
   password: "",
-  role_id: ""
+  role_id: "",
 });
 
 const toggleModal = () => {
@@ -386,7 +392,7 @@ const updateList = () => {
       store.state.list = res.data;
     })
     .catch((error) => {
-      reportErr(error)
+      reportErr(error);
     });
 };
 
@@ -398,7 +404,7 @@ const addContact = (evet) => {
   formdata.append("phone", contactInfo.phone_number);
   formdata.append("telegram", contactInfo.telegram_link);
   formdata.append("login", contactInfo.login);
-  formdata.append("password", contactInfo.password)
+  formdata.append("password", contactInfo.password);
   formdata.append("role_id", contactInfo.role_id);
 
   teacherService
@@ -412,13 +418,13 @@ const addContact = (evet) => {
         contactInfo.email = "";
         contactInfo.telegram_link = "";
         contactInfo.role_id = "";
-  
+
         toggleModal();
         updateList();
       }
     })
     .catch((error) => {
-      reportErr(error)
+      reportErr(error);
     });
 };
 
@@ -431,14 +437,13 @@ const modifyContact = (event) => {
     .update(id, formdata)
     .then((res) => {
       if (res.status == 200) {
-  
         isUpdate.value = false;
         updateList();
         toggleModal();
       }
     })
     .catch((error) => {
-      reportErr(error)
+      reportErr(error);
     });
 };
 
@@ -457,10 +462,9 @@ onMounted(() => {
     .getAll()
     .then((res) => {
       roles.value = res.data;
-      console.log(roles.value);
     })
     .catch((error) => {
-      reportErr(error)
+      reportErr(error);
     });
 });
 </script>

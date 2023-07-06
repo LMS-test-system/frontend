@@ -72,7 +72,7 @@ import { useRouter } from "vue-router";
 import { useAuthStore } from "../stores/auth/auth";
 import { authService } from "../services/auth";
 
-const api_url = import.meta.env.VITE_API_BASE_URL;
+const api_url = "http://16.171.11.243/api";
 const router = useRouter();
 
 const authStore = useAuthStore();
