@@ -34,7 +34,7 @@
               size="lg"
               class="absolute top-10 left-[73px]"
               rounded
-              :img="`${api_url}/image/file/${user.image?.file_name}`"
+              :img="generateURL(user.image?.file_name)"
             />
             <i
               @click="router.push({ name: 'account', params: { id: user.id } })"
