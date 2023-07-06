@@ -103,6 +103,7 @@ onBeforeMount(() => {
   const staff_id = localStorage.getItem("staff_id");
   authService.getOneInfo(staff_id, role).then((res) => {
     user.value = res.data;
+    console.log(user.value.image.file_name);
   });
 });
 </script>
