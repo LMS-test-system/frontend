@@ -25,7 +25,7 @@ import { ElNotification } from "element-plus";
 import { groupService } from "../services/group";
 import { reportErr } from "../constants/report";
 
-const api_url = import.meta.env.VITE_API_BASE_URL;
+const api_url = "http://16.171.11.243/api";
 
 const data = reactive({
   group: [],
