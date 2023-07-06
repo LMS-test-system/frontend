@@ -20,7 +20,7 @@
           status="online"
           size="sm"
           rounded
-          :img="`${api_url}/image/file/${user.image?.file_name}`"
+          :img="generateURL(user.image?.file_name)"
         />
         <div
           class="w-[225px] h-[250px] rounded-t-md absolute setting top-12 right-0 z-10"
@@ -90,6 +90,12 @@ const logout = () => {
   localStorage.removeItem("staff_id");
   authStore.clear();
   router.push({ name: "login" });
+};
+
+const generateURL = (file_name) => {
+  const url = `${api_url}/image/file/${file_name}`;
+  console.log(url);
+  return url;
 };
 
 onBeforeMount(() => {
