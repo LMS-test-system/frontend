@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from "vue";
-import { navLinks } from "../constants/navlinks";
+import { navLinks } from "../constants/navLinks";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
