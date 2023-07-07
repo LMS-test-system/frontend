@@ -332,7 +332,6 @@ const contactInfo = reactive({
 
 const generateURL = (file_name) => {
   const url = `${api_url}/image/file/${file_name}`;
-  console.log(url);
   return url;
 };
 
