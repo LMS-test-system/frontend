@@ -8,16 +8,9 @@
   <div class="flex gap-10">
     <div v-if="user" class="flex flex-col gap-2">
       <img
-        v-if="user.image"
         :src="generateURL(user.image?.file_name)"
-        class="w-[210px] h-[250px] object-cover"
-        alt=""
-      />
-      <img
-        v-else
-        src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-        class="w-[210px] h-[250px]"
-        alt=""
+        class="w-[210px] h-[250px] object-contain"
+        onerror="this.src='/no-avatar.png'"
       />
       <div class="flex items-center justify-around">
         <span>change avatar</span

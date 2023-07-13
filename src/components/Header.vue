@@ -13,39 +13,41 @@
         <!-- <img class="h-[35px] hidden lg:block bg-blue-500 rounded-md pt-2" src="../assets/icons/Academy.svg" alt=""> -->
       </div>
       <div class="flex items-center text-[22px] text-gray-500 gap-4 relative">
-        <i class="bx bxs-bell"></i>
-        <i class="bx bxs-grid-alt"></i>
-        <Avatar
+        <button
           @click="toggleSettings"
-          status="online"
-          size="sm"
-          rounded
-          :img="generateURL(user.image?.file_name)"
-        />
+          class="dropdown w-8 h-8 rounded-full overflow-hidden"
+        >
+          <img
+            :src="generateURL(user.image?.file_name)"
+            onerror="this.src='/no-avatar.png'"
+            class="w-full object-cover dropdown"
+          />
+        </button>
         <div
-          class="w-[225px] h-[250px] rounded-t-md absolute setting top-12 right-0 z-10"
-          :class="isSettings ? '' : 'hidden'"
+          :class="
+            isSettings
+              ? 'w-[225px] h-[260px] rounded-t-md absolute setting top-12 right-0 z-10'
+              : 'hidden'
+          "
         >
           <div
-            class="h-[30%] bg-white border rounded-t-md flex items-end justify-between pr-2 relative"
+            class="h-[70px] bg-white border rounded-t-md flex items-end justify-between pr-2 relative"
           >
-            <Avatar
-              status="online"
-              size="lg"
-              class="absolute top-10 left-[73px]"
-              rounded
-              :img="generateURL(user.image?.file_name)"
-            />
-            <i
-              @click="router.push({ name: 'account', params: { id: user.id } })"
-              class="bx bxs-edit-alt text-[18px] hover:bg-gray-200 p-1 rounded-full"
-            ></i>
+            <div
+              class="absolute top-10 left-[73px] w-[80px] h-[80px] rounded-full overflow-hidden"
+            >
+              <img
+                :src="generateURL(user.image?.file_name)"
+                onerror="this.src='/no-avatar.png'"
+                class="w-full object-cover dropdown"
+              />
+            </div>
           </div>
           <div
             class="flex flex-col gap-1 pt-10 items-center justify-center text-black text-[14px]"
           >
-            <p>{{ user.full_name }}</p>
-            <p>{{ user.email }}</p>
+            <p class="mt-4 text-base">{{ user.full_name }}</p>
+            <p class="text-xs text-slate-700">{{ user.email }}</p>
             <div class="w-full flex flex-col gap-3 mt-2 px-3">
               <button
                 @click="
@@ -102,6 +104,14 @@ onBeforeMount(() => {
   const staff_id = localStorage.getItem("staff_id");
   authService.getOneInfo(staff_id, role).then((res) => {
     user.value = res.data;
+  });
+});
+
+onMounted(() => {
+  window.addEventListener("click", (event) => {
+    if (!event.target.matches(".dropdown")) {
+      isSettings.value = false;
+    }
   });
 });
 </script>
