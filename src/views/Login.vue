@@ -17,7 +17,9 @@
       <div class="w-[430px] p-5 rounded-lg">
         <form @submit.prevent="login">
           <h1 class="font-bold text-[30px] leading-[28px] mb-5">Log in</h1>
-
+          <p class="text-[12px]">Feel free to log in as "Admin"</p>
+          <p class="text-[12px]">Login: admin</p>
+          <p class="text-[12px]">Password: admin</p>
           <input
             v-model="data.login"
             type="text"
